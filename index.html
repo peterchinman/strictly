@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Strictly</title>
+
+	<meta name="description" content="Make poetic forms online">
+	<meta property="og:image" content="[[Insert Absolute Path]]">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,100,1;1,9..144,100..900,100,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+	<top-part>
+	<inner-column>
+		<ul class="title-bar">
+			<li class="title">strictly</div>
+			<li class="login"><a href="login.html">log in</a></div>
+		</ul>
+	</inner-column>
+	</top-part>
+	<bottom-part>
+	<inner-column>
+		<nav>
+			<ul class="site-nav">
+				<li>
+					<a href="about.html">about</a>
+				</li>
+				<li>
+					<a href="browse.html">browse</a>
+				</li>
+				<li>
+					<a href="create.html">create</a>
+				</li>
+			</ul>
+		</nav>
+	</inner-column>
+	</bottom-part>
+</header>
+
+<main>
+<inner-column>
+	<h1 class="loud-voice">Create a New Form</h1>
+	<form action="">
+		<form-group>
+			<label for="form-select">Choose a Form</label>
+			<select name="poetic-forms" id="form-select">
+				<option value="">Select</option>
+				<option value="sonnet">Sonnet</option>
+				<option value="limerick">Limerick</option>
+				<option value="haiku">Haiku</option>
+				<option value="iambic-penatmeter">Iambic Pentameter</option>
+				<option value="acrostic">Acrostic</option>
+			</select>
+		</form-group>
+		<p class="or">or</p>
+		<form-group>
+			<label for="create-your-own">Create Your Own</label>
+			<button id="create-your-own" type="button">+</button>
+		</form-group>
+		<fieldset class="checkboxes">
+			<label for="strict-lines">Strict # of Lines?
+				<input type="checkbox" id="strict-lines" name="strict-lines">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label for="repeating-stanzas">Repeating Stanzas?
+				<input type="checkbox" id="repeating-stanzas" name="repeating-stanzas">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label for="strict-rhyme">Strict Rhyme Scheme?
+				<input type="checkbox" id="strict-rhyme" name="strict-rhyme">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label for="strict-syllable">Strict Syllable Count?
+				<input type="checkbox" id="strict-syllable" name="strict-syllable">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label for="strict-meter">Strict Meter?
+				<input type="checkbox" id="strict-meter" name="strict-meter">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+		</fieldset>
+	</form>
+</inner-column>
+
+</main>
+	
+<script src="static/javascript/form-logic.js"></script>
+</body>
+</html>

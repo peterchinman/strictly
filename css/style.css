@@ -1,0 +1,191 @@
+@import 'reset.css';
+@import 'setup.css';
+
+:root {
+	--neutral-0: 		#FFFFFF;
+	--neutral-20:		#FAFAFA;
+	--neutral-30:		#F7F7F7;
+	--neutral-50:		#F2F2F2;
+	--neutral-100:		#E5E5E5;
+	--neutral-200: 	#CCCCCC;
+	--neutral-300: 	#B2B2B2;
+	--neutral-400: 	#999999;
+	--neutral-500:		#808080;
+	--neutral-600:		#666666;
+	--neutral-700:		#4D4D4D;
+	--neutral-800:		#333333;
+	--neutral-900:		#1A1A1A;
+	--neutral-1000:	#000000;
+
+	--ink: var(--neutral-1000);
+
+	--bg-color: var(--neutral-0);
+}
+
+body {
+	background-color: var(--bg-color);
+}
+
+inner-column {
+	max-width: 450px;
+	margin-inline: auto;
+}
+
+main {
+	padding-block: 2rem;
+}
+
+top-part {
+
+	margin-block: 1.5rem;
+	
+	.title-bar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.title {
+		font-family: "Fraunces", serif;
+		font-size: 24px;
+		text-transform: uppercase;
+		font-weight: 700;
+		letter-spacing: 3px;
+	}
+
+	.login {
+		font-family: "Roboto Mono", monospace;
+		text-transform: uppercase;
+		background-color: var(--neutral-50);
+		padding: 10px;
+		border-radius: 5px;
+	}
+}
+
+bottom-part {
+	background-color: var(--neutral-50);
+	.site-nav {
+		display: flex;
+		justify-content: space-between;
+		
+		a {
+			font-family: "Fraunces", serif;
+			font-variation-settings: "WONK" 1;
+			padding-block: 10px;
+			text-transform: capitalize;
+		}
+	}
+}
+
+form {
+	padding-top: 4rem;
+	font-family: "Roboto Mono", monospace;
+	form-group, p {
+		padding-top: 1rem;
+	}
+	form-group{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	select {
+		padding: 10px 12px;
+		font-family: "Roboto Mono", monospace;
+		color: var(--neutral-500);
+	}
+	#create-your-own{
+		all: unset;
+		outline: revert;
+		font-size: 3rem;
+		font-weight: 100;
+		cursor: pointer;
+	
+		transition: transform .5s;
+	}
+	#create-your-own.active {
+		transform: rotate(45deg);
+	}
+
+	.checkboxes{
+		margin-top: 2rem;
+
+		label {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			& + label {
+				padding-top: 1rem;
+			}
+			
+			input {
+				all: unset;
+			}
+			.toggle {
+				position: relative;
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+
+				width: 120px;
+				
+				border: 1px solid black;
+				border-radius: 5px;
+
+				span {
+					display: flex;
+					justify-content: center;
+					padding: 10px 12px;
+				}
+
+				#no {
+					color: var(--ink);
+					transition: all .1s;
+					
+				}
+				#yes {
+					color: var(--neutral-500);
+					transition: all .1s;
+				}
+	
+				.slider {
+					position: absolute;
+					left: -1px;
+					top: -1px;
+					width: calc(50% + 1px);
+					height: calc(100% + 2px);
+					border: 1px solid black;
+					border-radius: 5px;
+					transition: all .3s;
+					background-color: #F7E9E9;
+					z-index: -1;
+				}
+	
+			}
+		}
+	label:has(> input:checked) {
+
+		.toggle {
+			#no {
+				color: var(--neutral-500);
+			}
+			#yes {
+				color: var(--ink);
+			}
+		}
+		.slider {
+			left: 50%;
+			background-color: #EDF7E9;
+		}
+	}
+		
+		
+	}
+}
+
+
+/* TYPOGRAPHY */
+
+.loud-voice {
+	font-family: "Fraunces", serif;
+	font-size: 24px;
+}
