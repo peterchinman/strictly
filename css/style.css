@@ -104,9 +104,17 @@ form {
 	}
 	#create-your-own.active {
 		transform: rotate(45deg);
+
 	}
 
-	.checkboxes{
+	&:has(#create-your-own.active) #strict-checkboxes {
+		display: block;
+	}
+
+
+
+	#strict-checkboxes{
+		display: none;
 		margin-top: 2rem;
 
 		label {
@@ -162,22 +170,39 @@ form {
 	
 			}
 		}
-	label:has(> input:checked) {
 
-		.toggle {
-			#no {
-				color: var(--neutral-500);
-			}
-			#yes {
-				color: var(--ink);
+		label:has(> input:disabled) {
+			.toggle {
+
+				#no {
+					color: var(--neutral-500)
+				}
+
+				.slider{
+					background-color: var(--neutral-50)
+				}
 			}
 		}
-		.slider {
-			left: 50%;
-			background-color: #EDF7E9;
+
+		label:has(> input:checked) {
+
+			.toggle {
+				#no {
+					color: var(--neutral-500);
+				}
+				#yes {
+					color: var(--ink);
+				}
+			}
+			.slider {
+				left: 50%;
+				background-color: #EDF7E9;
+			}
 		}
-	}
-		
+	
+		input:focus-visible + .toggle{
+			border: 2px solid blue;
+		}
 		
 	}
 }

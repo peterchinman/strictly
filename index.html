@@ -65,47 +65,56 @@
 			<label for="create-your-own">Create Your Own</label>
 			<button id="create-your-own" type="button">+</button>
 		</form-group>
-		<fieldset class="checkboxes">
+
+		<fieldset class="checkboxes" id="strict-checkboxes">
+
 			<label for="strict-lines">Strict # of Lines?
-				<input type="checkbox" id="strict-lines" name="strict-lines">
+				<input type="checkbox" id="strict-lines" value="strict-lines" name="strict-checkbox">
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
 			</label>
+
 			<label for="repeating-stanzas">Repeating Stanzas?
-				<input type="checkbox" id="repeating-stanzas" name="repeating-stanzas">
+				<input type="checkbox" id="repeating-stanzas" 
+				value="repeating-stanzas" name="strict-checkbox">
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
 			</label>
+
 			<label for="strict-rhyme">Strict Rhyme Scheme?
-				<input type="checkbox" id="strict-rhyme" name="strict-rhyme">
+				<input type="checkbox" id="strict-rhyme" value="strict-rhyme" name="strict-checkbox" disabled>
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
 			</label>
+
 			<label for="strict-syllable">Strict Syllable Count?
-				<input type="checkbox" id="strict-syllable" name="strict-syllable">
+				<input type="checkbox" id="strict-syllable" value="strict-syllable" name="strict-checkbox">
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
 			</label>
+
 			<label for="strict-meter">Strict Meter?
-				<input type="checkbox" id="strict-meter" name="strict-meter">
+				<input type="checkbox" id="strict-meter"
+				value="strict-meter" name="strict-checkbox">
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
 			</label>
+
 		</fieldset>
 	</form>
 </inner-column>
