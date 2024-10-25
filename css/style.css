@@ -20,6 +20,8 @@
 	--ink: var(--neutral-1000);
 
 	--bg-color: var(--neutral-0);
+	--inner-column: 800px;
+	--form-width: 450px;
 }
 
 body {
@@ -27,8 +29,9 @@ body {
 }
 
 inner-column {
-	max-width: 450px;
+	max-width: var(--inner-column);
 	margin-inline: auto;
+	padding: 12px;
 }
 
 main {
@@ -78,8 +81,16 @@ bottom-part {
 }
 
 form {
-	padding-top: 4rem;
 	font-family: "Roboto Mono", monospace;
+
+	padding-top: 3rem;
+
+	max-width: var(--form-width);
+	/* This is so the form doesn't joggle when the scroll bar shows up */
+	margin-left: calc((100vw - var(--form-width)) / 2);
+	/* TODO need a breakpoint here to account for phone width sub 550px */
+	/* Also this seems a little janky... messes with overall alignment */
+
 	form-group, p {
 		padding-top: 1rem;
 	}
