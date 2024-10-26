@@ -91,13 +91,30 @@ form {
 	/* TODO need a breakpoint here to account for phone width sub 550px */
 	/* Also this seems a little janky... messes with overall alignment */
 
-	form-group, p {
+	field-group, p {
 		padding-top: 1rem;
 	}
-	form-group{
+	field-group{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+	field-group:has(> input[type='text']){
+		flex-direction: column;
+		min-width: 100%;
+		align-items: revert;
+		gap: 12px;
+	}
+	input[type='number']  {
+		width: 72px;
+		height: 45px;
+		text-align: center;
+		font-family: "Roboto Mono", monospace;
+	}
+	input[type='text']  {
+		min-width: 100%;
+		height: 45px;
+		font-family: "Roboto Mono", monospace;
 	}
 	select {
 		padding: 10px 12px;
@@ -118,8 +135,12 @@ form {
 
 	}
 
-	&:has(#create-your-own.active) #strict-checkboxes {
+	&:has(#create-your-own.active) #strict-checkboxes, &:has(#create-your-own.active) #more-options  {
 		display: block;
+	}
+
+	#more-options {
+		display: none;
 	}
 
 
