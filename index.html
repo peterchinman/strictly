@@ -46,83 +46,65 @@
 </header>
 
 <main>
-<inner-column>
-	<h1 class="loud-voice">Create a New Form</h1>
-</inner-column>
-<form action="">
-	<field-group>
-		<label for="form-select">Choose a Form</label>
-		<select name="poetic-forms" id="form-select">
-			<option value="">Select</option>
-			<option value="sonnet">Sonnet</option>
-			<option value="limerick">Limerick</option>
-			<option value="haiku">Haiku</option>
-			<option value="iambic-penatmeter">Iambic Pentameter</option>
-			<option value="acrostic">Acrostic</option>
-		</select>
-	</field-group>
-	<p class="or">or</p>
-	<field-group>
-		<label for="create-your-own">Create Your Own</label>
-		<button id="create-your-own" type="button">+</button>
-	</field-group>
+<form id="create-form" action="">
 
-	<fieldset class="checkboxes" id="strict-checkboxes">
-
-		<label for="strict-lines">Strict # of Lines?
-			<input type="checkbox" id="strict-lines" value="strict-lines" name="strict-checkbox">
-			<div class="toggle">
-				<div class="slider"></div>
-				<span id="no">NO</span>
-				<span id="yes">YES</span>
-			</div>
-		</label>
-
-		<label for="repeating-stanzas">Repeating Stanzas?
-			<input type="checkbox" id="repeating-stanzas" 
-			value="repeating-stanzas" name="strict-checkbox">
-			<div class="toggle">
-				<div class="slider"></div>
-				<span id="no">NO</span>
-				<span id="yes">YES</span>
-			</div>
-		</label>
-
-		<label for="strict-rhyme">Strict Rhyme Scheme?
-			<input type="checkbox" id="strict-rhyme" value="strict-rhyme" name="strict-checkbox" disabled>
-			<div class="toggle">
-				<div class="slider"></div>
-				<span id="no">NO</span>
-				<span id="yes">YES</span>
-			</div>
-		</label>
-
-		<label for="strict-syllable">Strict Syllable Count?
-			<input type="checkbox" id="strict-syllable" value="strict-syllable" name="strict-checkbox">
-			<div class="toggle">
-				<div class="slider"></div>
-				<span id="no">NO</span>
-				<span id="yes">YES</span>
-			</div>
-		</label>
-
-		<label for="strict-meter">Strict Meter?
-			<input type="checkbox" id="strict-meter"
-			value="strict-meter" name="strict-checkbox">
-			<div class="toggle">
-				<div class="slider"></div>
-				<span id="no">NO</span>
-				<span id="yes">YES</span>
-			</div>
-		</label>
-
-	</fieldset>
-	<fieldset id="more-options">
-		<!-- <field-group>
-			<label for="number-of-lines">Number of Lines</label>
-			<input id="number-of-lines" name="number-of-lines" type="number">
-		</field-group> -->
-	</fieldset>
+	<inner-column>
+		<h1 class="loud-voice">Create a New Form</h1>
+		<fieldset class="checkboxes" id="strict-checkboxes">
+			<label class="checkbox-slider" for="strict-lines">Strict # of Lines?
+				<input type="checkbox" id="strict-lines" value="strict-lines" name="strict-checkbox">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label class="checkbox-slider" for="repeating-stanzas">Repeating Stanzas?
+				<input type="checkbox" id="repeating-stanzas"
+				value="repeating-stanzas" name="strict-checkbox">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label class="checkbox-slider" for="strict-rhyme">Strict Rhyme Scheme?
+				<input type="checkbox" id="strict-rhyme" value="strict-rhyme" name="strict-checkbox" disabled>
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label class="checkbox-slider" for="strict-syllable">Strict Syllable Count?
+				<input type="checkbox" id="strict-syllable" value="strict-syllable" name="strict-checkbox">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+			<label class="checkbox-slider" for="strict-meter">Strict Meter?
+				<input type="checkbox" id="strict-meter"
+				value="strict-meter" name="strict-checkbox">
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+			</label>
+		</fieldset>
+		<fieldset id="more-options">
+			<!--
+			Example of what the javascript generates
+			<field-group>
+				<label for="number-of-lines">Number of Lines</label>
+				<input id="number-of-lines" name="number-of-lines" type="number">
+			</field-group>
+			-->
+		</fieldset>
+		<button id="form-submit">Create</button>
+	</inner-column>
 </form>
 
 
