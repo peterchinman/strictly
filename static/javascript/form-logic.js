@@ -565,16 +565,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (event.target == $rhymeScheme) {
          let userInput = event.target.value;
-         // check if userInput uses only alphabet
-         // check if userInput has the correct number of characters
+         // TODO check if userInput uses only alphabet
+         // TODO check if userInput has the correct number of characters
          
       }
 
       // TODO check to make sure query selector is working here
       if (event.target == $meter || event.target == document.querySelectorAll('.differing-meter') ) {
          let userInput = event.target.value;
-         // check if userInput uses only 'x' and '/'
-         // check that number of syllables matches syllables per line, if it exists. 
+         // TODO check if userInput uses only 'x' and '/'
+         // TODO check that number of syllables matches syllables per line, if it exists. 
          
       }
 
