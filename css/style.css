@@ -19,7 +19,10 @@
 
 	--ink: var(--neutral-1000);
 
-	--red: #F7E9E9;
+	--light-red: #F7E9E9;
+	--red: #E07070;
+	--light-green: #EDF7E9;
+	--green: #CDF2C5;
 
 	--border-color: var(--neutral-500);
 	--border-disabled-color: var(--neutral-200);
@@ -35,76 +38,158 @@ body {
 	background-color: var(--bg-color);
 }
 
+
 inner-column {
 	max-width: var(--inner-column);
 	margin-inline: auto;
 	padding: 12px;
 }
 
-main {
-	/* padding-block: 1rem; */
-}
+header {
+	top-part {
 
-top-part {
-
-	margin-block: 1.5rem;
-	
-	.title-bar {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.title {
-		font-family: "Fraunces", serif;
-		font-size: 24px;
-		text-transform: uppercase;
-		font-weight: 700;
-		letter-spacing: 3px;
-	}
-
-	.login {
-		font-family: "Roboto Mono", monospace;
-		text-transform: uppercase;
-		background-color: var(--neutral-50);
-		padding: 10px;
-		border-radius: 5px;
-	}
-}
-
-bottom-part {
-	background-color: var(--neutral-50);
-	.site-nav {
-		display: flex;
-		justify-content: space-between;
+		margin-block: 1.5rem;
 		
-		a {
+		.title-bar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	
+		.title {
 			font-family: "Fraunces", serif;
-			font-variation-settings: "WONK" 1;
-			padding-block: 10px;
-			text-transform: capitalize;
+			font-size: 24px;
+			text-transform: uppercase;
+			font-weight: 500;
+			letter-spacing: 3px;
+			transition: all 1s;
+		}
+		.title:hover {
+			font-weight: 700;
+		}
+	
+		.login {
+			font-family: "Roboto Mono", monospace;
+			text-transform: uppercase;
+			background-color: var(--neutral-50);
+			padding: 10px;
+			border-radius: 5px;
 		}
 	}
+	
+	bottom-part {
+		background-color: var(--neutral-50);
+		.site-nav {
+			display: flex;
+			justify-content: space-between;
+			
+			a {
+				font-family: "Fraunces", serif;
+				font-variation-settings: "WONK" 1;
+				padding-block: 10px;
+				text-transform: capitalize;
+			}
+		}
+	}
+
 }
 
-form {
+main {
+	padding-block: 2rem;
+}
+
+
+
+
+
+#meter-validator {
+
+	details {
+		padding-bottom: 2rem;
+		font-family: "Spectral", serif;
+	
+		summary {
+			padding-left: 0;
+			padding-right: 1rem;
+			font-family: "Roboto Mono", monospace;
+			background-color: var(--bg-color);
+			color: var(--ink);
+			list-style: none;
+			cursor: pointer;
+			position: relative;
+			/* text-decoration: underline; */
+			width: fit-content;
+			padding-block: 1rem;
+			padding-left: 1.2rem;
+	
+			&:hover{
+				background-color: var(--neutral-50);
+			}
+	
+		}
+		summary:before {
+			content: '';
+			border-width: .4rem;
+
+			border-style: solid;
+			border-color: transparent transparent transparent #000;
+			position: absolute;
+			top: 1.1rem;
+			left: .2rem;
+			transform: rotate(0);
+			transform-origin: .2rem 50%;
+			transition: .25s transform ease
+		}
+
+		& > *:not(summary){
+			padding-left: 1rem;
+			background-color: var(--neutral-50);
+			color: var(--neutral-900);
+		}
+		
+	
+		p:first-of-type {
+			padding-top: 1rem;
+		}
+	
+		p + p {
+			padding-top: .5rem;
+		}
+		
+	}
+	
+	details[open] {
+		summary {
+			background-color: var(--neutral-50);
+		}
+		> summary:before {
+			transform: rotate(90deg);
+		}
+
+	}
+
+
+
+}
+
+form, #meter-validator {
 	padding-block: 2rem;
 	font-family: var(--mono);
 
 	/* Don't need this anymore because it's long enough not to joggle */
-	max-width: var(--form-width);
+	/* max-width: var(--form-width); */
 	/* This is so the form doesn't joggle when the scroll bar shows up */
-	margin-left: calc((100vw - var(--form-width)) / 2);
+	/* margin-left: calc((100vw - var(--form-width)) / 2); */
 	/* TODO need a breakpoint here to account for phone width sub 550px */
 
 	h1 {
-		padding-bottom: 3rem;
+		padding-bottom: 2rem;
 	}
-	field-group + field-group, p + p, label + label, field-group + label, label + field-group {
+	field-group + field-group, label + label, field-group + label, label + field-group {
 		padding-top: 1.5rem;
 	}
 
-	fieldset + fieldset {
+	fieldset, fieldset + fieldset, fieldset + h1, field-group + h1 {
 		padding-top: 3rem;
 	}
 
@@ -131,6 +216,7 @@ form {
 		border: unset;
 		border: 1px solid var(--border-color);
 		border-radius: 5px;
+		padding-inline: 1rem;
 	}
 
 	input:disabled {
@@ -267,14 +353,129 @@ form {
 
 	}
 
+	#compose {
+		border: 1px solid var(--neutral-500);
+		border-radius: 5px;
+		padding: .3rem;
 
+		.input-group {
+			display: flex;
+			position: relative;
+			input {
+				border: none;
+				border-radius: 0;
+				padding-left: 1.5rem;
+			}
+			input:focus {
+				outline: none;
+				border-left: 2px solid blue;
+			}
+		}
 
+		.meter-good {
+			content: '';
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background-color: var(--green);
+			position: absolute;
+			top: 1rem;
+			left: .4rem;
+		}
+		.meter-bad {
+			content: '';
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background-color: var(--red);
+			position: absolute;
+			top: 1rem;
+			left: .4rem;
+		}
+
+		
+
+	
+	}
 }
+
+
 
 
 /* TYPOGRAPHY */
 
 .loud-voice {
+	/* font-family: "Fraunces", serif; */
+	font-family: "Roboto Mono", monospace;
+	/* font-weight: 700; */
+	font-size: 2rem;
+}
+
+.attention-voice {
 	font-family: "Fraunces", serif;
-	font-size: 24px;
+	font-size: 3rem;
+	line-height: 1.2;
+	font-weight: 300;
+}
+
+.cross-out {
+	text-decoration: line-through;
+}
+
+.link-container {
+	margin-top: 2rem;
+	display: flex;
+	/* justify-content: center; */
+}
+
+.loud-link {
+	font-family: "Roboto Mono", monospace;
+	color: inherit;
+	text-decoration: none;
+	font-size: 2rem;
+	font-weight: 300;
+	background-color: var(--neutral-100);
+	width: fit-content;
+	padding: 1rem 2rem;
+	border-radius: 5px;
+	display: flex;
+	transition: all 2s;
+
+	&:hover {
+		font-weight: 900;
+		/* font-size: 3rem; */
+		/* letter-spacing: 10px; */
+	}
+}
+
+
+p {
+	line-height: 1.4;
+}
+
+p + p {
+	padding-top: .5rem;
+}
+
+.loud-voice + .body-copy {
+	padding-top: 3rem;
+}
+
+.mono {
+	font-family: "Roboto Mono", monospace;
+}
+
+.block-quote{
+	padding-left: 1rem;
+	padding-block: 2rem;
+}
+
+.body-copy {
+	font-family: "Spectral", serif;
+	line-height: 1.4;
+	/* letter-spacing: .5px; */
+}
+
+section + section {
+	padding-top: 3rem;
 }

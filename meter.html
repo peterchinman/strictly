@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Strictly</title>
+
+	<meta name="description" content="Make poetic forms online">
+	<meta property="og:image" content="[[Insert Absolute Path]]">
+
+   <!--
+   GOOGLE FONTS :
+      "Roboto Mono",
+      "Fraunces",
+      "Spectral"
+   -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,1;1,9..144,100..900,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+   <!-- HTMX -->
+   <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body hx-boost="true">
+
+<header>
+	<top-part>
+	<inner-column>
+		<ul class="title-bar">
+			<li class="title"><a href="/">strictly</a></div>
+			<li class="login"><a href="login.html">log in</a></div>
+		</ul>
+	</inner-column>
+	</top-part>
+	<bottom-part>
+	<inner-column>
+		<nav>
+			<ul class="site-nav">
+				<li>
+					<a href="about.html">about</a>
+				</li>
+				<li class="active-page">
+					<a href="meter.html">meter</a>
+				</li>
+				<li>
+					<a href="create.html">create</a>
+				</li>
+			</ul>
+		</nav>
+	</inner-column>
+	</bottom-part>
+</header>
+
+<main>
+<section id="meter-validator" action="">
+
+	<inner-column>
+      
+      <h1 class="loud-voice">Meter Validator</h1>
+
+      <details>
+         <summary>Instructions</summary>
+         <p class="body-copy">Input a meter using 'x' and '/'.</p>
+         <p class="body-copy">'x' represents unstressed syllables.</p>  
+         <p class="body-copy">'/' represents stressed syllables.</p>
+         <p class="body-copy">Spaces are ignored.</p>
+         <p class="body-copy">You can use parentheses to indicate optional parts of the meter. </p>
+         <p class="body-copy">E.g. '/ x (x /)' could be matched by either '/ x ' or '/ x x /'.</p>
+      </details>
+
+    
+      
+      <section>
+         <field-group>
+            <label for="meter">Define a Meter</label>
+            <input id="meter" name="meter" type="text" placeholder="e.g. x/ x/ x/ x/">
+         
+         </field-group>
+      </section>
+
+      <!--
+      <textarea name="compose" id="compose" oninput='this.style.height = "";this.style.height = this.scrollHeight + 40 + "px"'></textarea>
+      -->
+
+      
+      <!--
+      <h1 class="loud-voice">Compose Here</h1>
+      -->
+      <section>
+         <p>Press return to validate the line's meter.</p>
+         <div id="compose">
+            <div class="input-group">
+               <label for="line-1"></label>
+               <input id="line-1" name="line-1" type="text">
+            </div>
+         </div>
+         <div id="result"></div>
+      </section>
+
+
+	</inner-column>
+</section>
+</main>
+
+<script>
+   const compose = document.querySelector('#compose')
+   let lineCounter = 1;
+
+   function createNewInputGroup() {
+      let id = 'line-' + ++lineCounter;
+
+      let $div = document.createElement('div');
+      $div.classList.add('input-group');
+
+      let $label = document.createElement('label');
+      $label.for = id
+
+      let $input = document.createElement('input')
+      $input.id = id;
+      $input.name = id;
+      $input.type = 'text';
+
+      $div.appendChild($label); 
+      $div.appendChild($input);
+
+      return $div; 
+   }
+
+   compose.addEventListener('keydown', function(event) {
+      if (event.target.matches('input')) {
+         if (event.key === "Enter") {
+            // create a new input beneath current one
+            let newInput = createNewInputGroup();
+            event.target.parentElement.insertAdjacentElement("afterend", newInput);
+            newInput.querySelector('input').focus();
+
+            // record current line-value to send to checkMeter();
+            const line = event.target.value;
+            const meter = document.querySelector('#meter').value;
+            checkMeter(line, meter, event.target);
+      }
+      }
+      
+   })
+
+   function checkMeter(text, meter, inputElement) {
+      // Send AJAX request to the server
+      console.log("enter checkMeter()")
+      fetch("check_meter.php", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `text=${encodeURIComponent(text)}&meter=${encodeURIComponent(meter)}`
+      })
+      .then(response => response.text())
+      .then(data => {
+
+         // TODO THIS IS WHERE YOU GOT TO, have this respond by changing the class of the label of the associated input. which we control with CSS to change the styling.
+         // TODO create label for each input
+
+         $label = inputElement.parentElement.querySelector('label');
+         if (data === "Meter matches!") {
+            $label.classList.add('meter-good');
+            $label.classList.remove('meter-bad');
+         }
+         else {
+            $label.classList.add('meter-bad');
+            $label.classList.remove('meter-good');
+         }
+      })
+      .catch(error => console.error("Error:", error));
+   }
+
+</script>
+</body>
+</html>
