@@ -104,6 +104,39 @@
 				<input id="number-of-lines" name="number-of-lines" type="number">
 			</field-group>
 			-->
+
+			<field-group>
+				<label for="number-of-lines">Number of Lines</label>
+				<input id="number-of-lines" name="number-of-lines" type="number" class="empty">
+			</field-group>
+			<field-group>
+				<label for="stanza-line-length">Stanza Line Length</label>
+				<input id="stanza-line-length" name="stanza-line-length" type="number" class="empty">
+			</field-group>
+			<label class="checkbox-slider" class="differing-lines-label">
+				<span class="label"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
+         	<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
+				</div>
+     		</label>
+			<field-group>
+				<label for="rhyme-scheme">Rhyme Scheme</label>
+				<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty">
+			</field-group>
+			<field-group>
+				<label for="syllables-per-line">Syllables per Line</label>
+				<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
+			</field-group>
+			<field-group>
+				<label for="meter">Meter</label>
+				<input id="meter" name="meter" type="text" class="empty">
+			</field-group>
+
+
+
 		</fieldset>
 		<button id="form-submit">Create</button>
 	</inner-column>
