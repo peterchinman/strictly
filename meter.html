@@ -63,12 +63,13 @@
 
       <details>
          <summary>Instructions</summary>
-         <p class="body-copy">Input a meter using 'x' and '/'.</p>
-         <p class="body-copy">'x' represents unstressed syllables.</p>  
-         <p class="body-copy">'/' represents stressed syllables.</p>
+         <p class="body-copy">Input a meter using <code>x</code> and <code>/</code>.</p>
+         <p class="body-copy"><code>x</code> for unstressed syllables.</p>  
+         <p class="body-copy"><code>/</code> for stressed syllables.</p>
          <p class="body-copy">Spaces are ignored.</p>
          <p class="body-copy">You can use parentheses to indicate optional parts of the meter. </p>
-         <p class="body-copy">E.g. '/ x (x /)' could be matched by either '/ x ' or '/ x x /'.</p>
+         <p class="body-copy">E.g. <code>/ x (x /)</code> could be matched by either <code>/ x</code> or <code>/ x x /</code>.</p>
+         <p class="body-copy"><a href="about.html">Learn more about meter.</a></p>
       </details>
 
     
@@ -89,15 +90,16 @@
       <!--
       <h1 class="loud-voice">Compose Here</h1>
       -->
-      <section>
-         <p>Press return to validate the line's meter.</p>
+      <section class="composing-section">
+         <h1 class="loud-voice">Compose</h1>
+         <p>Start writing, press enter to validate a line.</p>
+
          <div id="compose">
             <div class="input-group">
                <label for="line-1"></label>
                <input id="line-1" name="line-1" type="text">
             </div>
          </div>
-         <div id="result"></div>
       </section>
 
 
@@ -131,6 +133,19 @@
 
    compose.addEventListener('keydown', function(event) {
       if (event.target.matches('input')) {
+
+         if (event.target.id != 'line-1') {
+            if (event.key === "Backspace") {
+               if (event.target.value === "") {
+                  let id = parseInt(event.target.id.slice(5));
+                  event.target.parentElement.remove();
+                  document.querySelector('#line-' + (id - 1)).focus();
+                  reorganizeLineId();
+               }
+            }
+
+         }
+         
          if (event.key === "Enter") {
             // create a new input beneath current one
             let newInput = createNewInputGroup();
@@ -141,10 +156,33 @@
             const line = event.target.value;
             const meter = document.querySelector('#meter').value;
             checkMeter(line, meter, event.target);
-      }
+
+            reorganizeLineId();
+         }
+
+         if (event.key === "ArrowUp") {
+            let id = parseInt(event.target.id.slice(5))
+            if (document.querySelector('#line-' + (id - 1))) {
+               document.querySelector('#line-' + (id - 1)).focus();
+            }
+         }
+         if (event.key === "ArrowDown") {
+            let id = parseInt(event.target.id.slice(5))
+            if (document.querySelector('#line-' + (id + 1))) {
+               document.querySelector('#line-' + (id + 1)).focus();
+            }
+         }
+
       }
       
    })
+
+   function reorganizeLineId() {
+      compose.querySelectorAll('input').forEach((input, index) => {
+         input.id = 'line-' + (index + 1);
+         input.parentElement.querySelector('label').setAttribute('for', 'line-' + (index + 1));
+      })
+   }
 
    function checkMeter(text, meter, inputElement) {
       // Send AJAX request to the server
@@ -158,10 +196,7 @@
       })
       .then(response => response.text())
       .then(data => {
-
-         // TODO THIS IS WHERE YOU GOT TO, have this respond by changing the class of the label of the associated input. which we control with CSS to change the styling.
-         // TODO create label for each input
-
+         // create label
          $label = inputElement.parentElement.querySelector('label');
          if (data === "Meter matches!") {
             $label.classList.add('meter-good');

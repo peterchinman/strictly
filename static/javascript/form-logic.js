@@ -158,11 +158,11 @@ document.addEventListener('DOMContentLoaded', function() {
    const $strictMeterInput = document.getElementById('strict-meter');
 
    // declare and create the #moreOptions <field-groups>
-   const $numberOfLines = appendChildToId(createFieldGroup({labelText: 'Number of Lines', inputId: 'number-of-lines', type: 'number'}), 'more-options');
-   const $stanzaLineLength = appendChildToId(createFieldGroup({labelText:'Stanza Line Length', inputId: 'stanza-line-length', type: 'number'}), "more-options");
-   const $rhymeScheme = appendChildToId(createFieldGroup({labelText:'Rhyme Scheme', inputId: 'rhyme-scheme', type: 'text'}), "more-options");
-   const $syllablesPerLine = appendChildToId(createFieldGroup({labelText:'Syllables per Line', inputId: 'syllables-per-line', type: 'number'}), "more-options");
-   const $meter = appendChildToId(createFieldGroup({labelText:'Meter', inputId: 'meter', type: 'text'}), "more-options");
+   const $numberOfLines = appendChildToId(createFieldGroup({labelText: 'Number of Lines', inputId: 'number-of-lines', type: 'number'}), 'form-inputs');
+   const $stanzaLineLength = appendChildToId(createFieldGroup({labelText:'Stanza Line Length', inputId: 'stanza-line-length', type: 'number'}), "form-inputs");
+   const $rhymeScheme = appendChildToId(createFieldGroup({labelText:'Rhyme Scheme', inputId: 'rhyme-scheme', type: 'text'}), "form-inputs");
+   const $syllablesPerLine = appendChildToId(createFieldGroup({labelText:'Syllables per Line', inputId: 'syllables-per-line', type: 'number'}), "form-inputs");
+   const $meter = appendChildToId(createFieldGroup({labelText:'Meter', inputId: 'meter', type: 'text'}), "form-inputs");
 
    // declare the fieldgroup inputs
    const $numberOfLinesInput = $numberOfLines.querySelector('input');

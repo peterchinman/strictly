@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Strictly</title>
+
+	<meta name="description" content="Make poetic forms online">
+	<meta property="og:image" content="[[Insert Absolute Path]]">
+
+   <!--
+   GOOGLE FONTS :
+      "Roboto Mono",
+      "Fraunces",
+      "Spectral"
+   -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,1;1,9..144,100..900,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+   <!-- HTMX -->
+   <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+
+	<link href="css/style.css" rel="stylesheet">
+</head>
+
+<body hx-boost="true">
+
+<header>
+	<top-part>
+	<inner-column>
+		<ul class="title-bar">
+			<li class="title"><a href="/">strictly</a></div>
+			<li class="login"><a href="login.html">log in</a></div>
+		</ul>
+	</inner-column>
+	</top-part>
+	<bottom-part>
+	<inner-column>
+		<nav>
+			<ul class="site-nav">
+				<li>
+					<a href="about.html">about</a>
+				</li>
+				<li class="active-page">
+					<a href="meter.html">meter</a>
+				</li>
+				<li>
+					<a href="create.html">create</a>
+				</li>
+			</ul>
+		</nav>
+	</inner-column>
+	</bottom-part>
+</header>
+
+<main>
+<section id="meter-validator" action="">
+
+	<inner-column>
+      
+      <h1 class="loud-voice">Meter Validator</h1>
+
+      <details>
+         <summary>Instructions</summary>
+         <p class="body-copy">Input a meter using 'x' and '/'.</p>
+         <p class="body-copy">'x' represents unstressed syllables.</p>  
+         <p class="body-copy">'/' represents stressed syllables.</p>
+         <p class="body-copy">Spaces are ignored.</p>
+         <p class="body-copy">You can use parentheses to indicate optional parts of the meter. </p>
+         <p class="body-copy">E.g. '/ x (x /)' could be matched by either '/ x ' or '/ x x /'.</p>
+      </details>
+
+    
+      
+      <section>
+         <field-group>
+            <label for="meter">Define a Meter</label>
+            <input id="meter" name="meter" type="text" placeholder="e.g. x/ x/ x/ x/">
+         
+         </field-group>
+      </section>
+
+      <!--
+      <textarea name="compose" id="compose" oninput='this.style.height = "";this.style.height = this.scrollHeight + 40 + "px"'></textarea>
+      -->
+
+      
+      <!--
+      <h1 class="loud-voice">Compose Here</h1>
+      -->
+      <section>
+         <p>Press return to validate the line's meter.</p>
+         <div class="compose-2-container">
+            <div id="results"></div>
+            <textarea name="compose-2" id="compose-2" spellcheck="false"></textarea>
+         </div>
+      </section>
+
+
+	</inner-column>
+</section>
+</main>
+
+
+<script>
+        const textarea = document.getElementById("compose-2");
+        const responseDiv = document.getElementById("results");
+
+        textarea.addEventListener("input", function(event) {
+            const currentLineText = getCurrentLineText(textarea);
+            const lineIndex = getCurrentLineIndex(textarea);
+
+            // Only check the meter if the user presses "Enter"
+            if (event.inputType === "insertLineBreak") {
+                const meter = document.getElementById("meter").value;
+                checkMeter(currentLineText, meter, lineIndex);
+            }
+
+            updateResponses();
+        });
+
+        function getCurrentLineText(textarea) {
+            const cursorPosition = textarea.selectionStart;
+            const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+            const lines = textBeforeCursor.split("\n");
+            return lines[lines.length - 1]; // Get text of the current line
+        }
+
+        function getCurrentLineIndex(textarea) {
+            const cursorPosition = textarea.selectionStart;
+            const textBeforeCursor = textarea.value.substring(0, cursorPosition);
+            return textBeforeCursor.split("\n").length - 1; // Zero-based index
+        }
+
+       function checkMeter(text, meter, lineIndex) {
+            // Send AJAX request to the server
+            fetch("check_meter.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `text=${encodeURIComponent(text)}&meter=${encodeURIComponent(meter)}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Check if there's already a line response at lineIndex
+                let lineResponse = document.getElementById(`line-response-${lineIndex}`);
+
+                if (!lineResponse) {
+                    lineResponse = document.createElement("div");
+                    lineResponse.className = "line-response";
+                    lineResponse.id = `line-response-${lineIndex}`;
+                } else {
+                    // Clear any previous content in the existing line response
+                    lineResponse.innerHTML = "";
+                }
+
+                // Add a colored circle based on the result
+                const circle = document.createElement("div");
+                circle.className = "circle";
+
+               if (data === "Meter matches!") {
+                  circle.classList.add('meter-good');
+                  circle.classList.remove('meter-bad');
+               }
+               else {
+                  circle.classList.add('meter-bad');
+                  circle.classList.remove('meter-good');
+               }
+
+                // Append circle and line text
+                lineResponse.appendChild(circle);
+                lineResponse.appendChild(document.createTextNode(text));
+
+                // Insert or replace at the correct position
+                if (responseDiv.children[lineIndex]) {
+                    responseDiv.replaceChild(lineResponse, responseDiv.children[lineIndex]);
+                } else {
+                    responseDiv.appendChild(lineResponse);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function updateResponses() {
+            // Get current lines of text
+            const lines = textarea.value.split("\n");
+
+            // Ensure each line response in responseDiv is aligned with the current lines
+            lines.forEach((lineText, index) => {
+                let lineResponse = document.getElementById(`line-response-${index}`);
+                if (!lineResponse) {
+                    // Create a new div if it doesn’t already exist
+                    lineResponse = document.createElement("div");
+                    lineResponse.className = "line-response";
+                    lineResponse.id = `line-response-${index}`;
+                    responseDiv.appendChild(lineResponse);
+                }
+
+                // Ensure the lines and their responses remain in sync
+                if (index >= responseDiv.children.length) {
+                    responseDiv.appendChild(lineResponse);
+                }
+            });
+
+            // Remove any extra line responses if textarea has fewer lines than responses
+            while (responseDiv.children.length > lines.length) {
+                responseDiv.removeChild(responseDiv.lastChild);
+            }
+        }
+    </script>
+
+
+</body>
+</html>
