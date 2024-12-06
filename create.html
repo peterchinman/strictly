@@ -46,10 +46,10 @@
 </header>
 
 <main>
-<form id="create-form" action="">
-
-	<inner-column>
-		<h1 class="loud-voice">Define a New Poetry Form</h1>
+<inner-column>
+	<form id="create-form" action="">
+	
+		<h1 class="loud-voice">Define a Poetic Form</h1>
 		<!--
 		<fieldset class="checkboxes" id="strict-checkboxes">
 			<label class="checkbox-slider" for="strict-lines">Strict # of Lines?
@@ -104,7 +104,7 @@
 				<input id="number-of-lines" name="number-of-lines" type="number">
 			</field-group>
 			-->
-
+	
 			<field-group>
 				<label for="number-of-lines">Number of Lines</label>
 				<input id="number-of-lines" name="number-of-lines" type="number" class="empty">
@@ -115,13 +115,13 @@
 			</field-group>
 			<label class="checkbox-slider" class="differing-lines-label">
 				<span class="label"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
-         	<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
+				<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
 				<div class="toggle">
 					<div class="slider"></div>
 					<span id="no">NO</span>
 					<span id="yes">YES</span>
 				</div>
-     		</label>
+				</label>
 			<field-group>
 				<label for="rhyme-scheme">Rhyme Scheme</label>
 				<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty">
@@ -134,17 +134,32 @@
 				<label for="meter">Meter</label>
 				<input id="meter" name="meter" type="text" class="empty">
 			</field-group>
-
-
-
+	
+	
+	
 		</fieldset>
+		<!--
 		<button id="form-submit">Create</button>
-	</inner-column>
-</form>
+		-->
+	</form>
+	
+	<section class="composing-section">
+		<h1 class="loud-voice">Compose</h1>
+		<p>Start writing, press enter to validate a line.</p>
+		<div id="compose">
+			<div class="input-group">
+				<label for="line-0"><div class="rhyme-label"></div><div class="meter-label"></div></label>
+				<input id="line-0" name="line-0" type="text">
+			</div>
+		</div>
+	</section>
+</inner-column>
 
-<script src="static/javascript/form-logic.js"></script>
+
 </main>
 	
-
+<script src="static/rhyme-and-meter.js"></script>
+<script src="static/form-logic.js"></script>
+<script src="static/compose.js"></script>
 </body>
 </html>

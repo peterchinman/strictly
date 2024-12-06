@@ -1,3 +1,50 @@
+function getFormData(){
+
+   const formOutput = {
+      numberOfLines: 0,
+      stanzaLineLength: 0,
+      poemDifferingLines: false,
+      stanzaDifferingLines: false,
+      rhymeScheme: "",
+      syllablesPerLine: 0,
+      meter: "",
+      differingLines: {}
+   };
+
+   formOutput.numberOfLines = document.querySelector('#number-of-lines').value;
+   formOutput.stanzaLineLength = document.querySelector('#stanza-line-length').value;
+   if (document.querySelector('#poem-differing-lines')){
+      formOutput.poemDifferingLines = document.querySelector('#poem-differing-lines').checked
+   }
+   if (document.querySelector('#stanza-differing-lines')){
+      formOutput.stanzaDifferingLines = document.querySelector('#stanza-differing-lines').checked
+   }
+   formOutput.rhymeScheme = document.querySelector('#rhyme-scheme').value;
+
+   // differingLines?
+   if(formOutput.poemDifferingLines || formOutput.stanzaDifferingLines) {
+      const differingSyllables = document.querySelectorAll('.differing-syllables input');
+      differingSyllables.forEach((element, index) => {
+         formOutput.differingLines[index] = formOutput.differingLines[index] || {};
+         formOutput.differingLines[index].differingSyllables = element.value || 0;
+      })
+
+      const differingMeter = document.querySelectorAll('.differing-meter input');
+      differingMeter.forEach((element, index) => {
+         formOutput.differingLines[index] = formOutput.differingLines[index] || {};
+         formOutput.differingLines[index].differingMeter = element.value || "";
+      })
+   }
+   else {
+      formOutput.syllablesPerLine = document.querySelector('#syllables-per-line').value;
+      formOutput.meter = document.querySelector('#meter').value;
+   }
+
+
+
+   return formOutput;
+}
+
 /**
  * Creates a  <field-group>, and initializes it to .disabled. <field-group> id = field.inputId + "-group".
  * 
@@ -73,7 +120,15 @@ function createAndPlaceDifferingLinesSection(lineLength, stanzaOrPoem) {
    }
 
    // place the element
-   document.getElementById('form-submit').parentNode.insertBefore(container, document.getElementById('form-submit'));
+
+   // if there's a submit button insert before that
+   if (document.querySelector('#form-submit')) {
+      document.querySelector('#form-submit').parentNode.insertBefore(container, document.querySelector('#form-submit'));
+   }
+   // otherwise append to end of form
+   else{
+      document.querySelector('#create-form').appendChild(container);
+   }
 }
 
 
@@ -141,6 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
          // TODO it would be nice if this preserved what input there was there currently;
          if ($poemDifferingLinesInput && $poemDifferingLinesInput.checked == true) {
             // deconstruct and update
+            console.log("updating poemDifferingLinesSection")
             $poemDifferingLinesSection.remove();
             let lineLength = event.target.value;
             createAndPlaceDifferingLinesSection(lineLength, 'poem');
@@ -157,6 +213,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // supercedes $poemDifferingLinesSection
             if ($poemDifferingLinesSection) {
                $poemDifferingLinesSection.remove()
+
+               let lineLength = $stanzaLineLengthInput.value;
+               createAndPlaceDifferingLinesSection(lineLength, "stanza")
+
             }
             // create stanza differing lines checkbox
 
@@ -166,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
             $differingLinesInput.disabled = false;
          }
          // event: non-empty to empty
-         else if($stanzaLineLengthInput.value <= 0) {
+         else if((!$stanzaLineLengthInput.classList.contains('empty')) && $stanzaLineLengthInput.value <= 0) {
             // deactivate
             $stanzaLineLengthInput.classList.add('empty')
 
@@ -174,13 +234,18 @@ document.addEventListener('DOMContentLoaded', function() {
             $differingLinesInput.id = "poem-differing-lines";
             $differingLinesInput.name = "poem-differing-lines";
 
-            if (! $numberOfLinesInput.value > 0) {
-               $differingLinesInput.disabled = true;
-            }
-            
             if ($stanzaDifferingLinesSection) {
                // deconstruct
                $stanzaDifferingLinesSection.remove();
+               
+               if ($numberOfLinesInput.value > 0) {
+                  let lineLength = $numberOfLinesInput.value;
+                  createAndPlaceDifferingLinesSection(lineLength, "poem")
+               }
+            }
+
+            if (! $numberOfLinesInput.value > 0) {
+               $differingLinesInput.disabled = true;
             }
          }
 
@@ -247,7 +312,9 @@ document.addEventListener('DOMContentLoaded', function() {
          // event: unchecked;
          else {
             // remove section
-            $poemDifferingLinesSection.remove();
+            if ($poemDifferingLinesSection) {
+               $poemDifferingLinesSection.remove();
+            }
             // reactivate syllable and meter inputs if applicable
             $syllablesPerLineInput.disabled = false;
             $meterInput.disabled = false;
@@ -276,6 +343,10 @@ document.addEventListener('DOMContentLoaded', function() {
             $meterInput.disabled = false;
          }
       }
+
+      // SYLLABLE CONNT AND METER FOR DIFERING LINES
+
+      // if (event.target == )
 
       // FORM VALIDATION LOGIC
 
