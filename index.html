@@ -8,18 +8,9 @@
 	<meta name="description" content="Make poetic forms online">
 	<meta property="og:image" content="[[Insert Absolute Path]]">
 
-   <!--
-   GOOGLE FONTS USED:
-      "Roboto Mono",
-      "Fraunces",
-      "Spectral"
-   -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,WONK@0,9..144,100..900,1;1,9..144,100..900,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-
-   <!-- HTMX -->
-   <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,100,1;1,9..144,100..900,100,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
 	<link href="css/style.css" rel="stylesheet">
 </head>
@@ -40,10 +31,10 @@
 		<nav>
 			<ul class="site-nav">
 				<li>
-					<a href="about.html">about</a>
+					<a href="homepage.html">home</a>
 				</li>
-				<li class="active-page">
-					<a href="meter.html">meter</a>
+				<li>
+					<a href="about.html">about</a>
 				</li>
 				<li>
 					<a href="create.html">create</a>
@@ -55,15 +46,122 @@
 </header>
 
 <main>
-	<section class="intro">
-	<inner-column>
-		<h1 class="attention-voice">A place to compose poems with strict meter and rhyme.</h1>
-
-		<p class="link-container"><a href="meter.html" class="loud-link">Try Now</a></p>
-
-	</inner-column>
+<grid-container>
+	<form id="create-form" action="">
+	
+		<inner-column>
+			<h1 class="loud-voice">Define a Poetic Form</h1>
+			<!--
+			<fieldset class="checkboxes" id="strict-checkboxes">
+				<label class="checkbox-slider" for="strict-lines">Strict # of Lines?
+					<input type="checkbox" id="strict-lines" value="strict-lines" name="strict-checkbox">
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+				</label>
+				<label class="checkbox-slider" for="repeating-stanzas">Repeating Stanzas?
+					<input type="checkbox" id="repeating-stanzas"
+					value="repeating-stanzas" name="strict-checkbox">
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+				</label>
+				<label class="checkbox-slider" for="strict-rhyme">Strict Rhyme Scheme?
+					<input type="checkbox" id="strict-rhyme" value="strict-rhyme" name="strict-checkbox" disabled>
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+				</label>
+				<label class="checkbox-slider" for="strict-syllable">Strict Syllable Count?
+					<input type="checkbox" id="strict-syllable" value="strict-syllable" name="strict-checkbox">
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+				</label>
+				<label class="checkbox-slider" for="strict-meter">Strict Meter?
+					<input type="checkbox" id="strict-meter"
+					value="strict-meter" name="strict-checkbox">
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+				</label>
+			</fieldset>
+			-->
+			<fieldset id="form-inputs">
+				<!--
+				Example of what the javascript generates
+				<field-group>
+					<label for="number-of-lines">Number of Lines</label>
+					<input id="number-of-lines" name="number-of-lines" type="number">
+				</field-group>
+				-->
+				<field-group>
+					<label for="rhyme-scheme">Rhyme Scheme</label>
+					<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty" placeholder="ABAB">
+				</field-group>
+				<field-group>
+					<label for="meter">Meter</label>
+					<input id="meter" name="meter" type="text" class="empty" placeholder="x/x/x/x/x/">
+				</field-group>
+				<field-group>
+					<label for="number-of-lines">Number of Lines</label>
+					<input id="number-of-lines" name="number-of-lines" type="number" class="empty">
+				</field-group>
+				<field-group>
+					<label for="stanza-line-length">Stanza Line Length</label>
+					<input id="stanza-line-length" name="stanza-line-length" type="number" class="empty">
+				</field-group>
+				<label class="checkbox-slider" class="differing-lines-label">
+					<span class="label"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
+					<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
+					<div class="toggle">
+						<div class="slider"></div>
+						<span id="no">NO</span>
+						<span id="yes">YES</span>
+					</div>
+					</label>
+			
+				<field-group>
+					<label for="syllables-per-line">Syllables per Line</label>
+					<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
+				</field-group>
+			
+			</fieldset>
+			<!--
+			<button id="form-submit">Create</button>
+			-->
+		</inner-column>
+	</form>
+	
+	<section class="composing-section">
+		<inner-column>
+			<h1 class="loud-voice">Compose</h1>
+			<p>Start writing, press enter to validate a line.</p>
+			<div id="compose">
+				<div class="input-group">
+					<label for="line-0"><div class="rhyme-label"></div><div class="meter-label"></div></label>
+					<input id="line-0" name="line-0" type="text">
+				</div>
+			</div>
+		</inner-column>
 	</section>
+</grid-container>
+
+
 </main>
+	
+<script src="static/rhyme-and-meter.js"></script>
+<script src="static/form-logic.js"></script>
+<script src="static/compose.js"></script>
 </body>
 </html>
-
