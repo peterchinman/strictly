@@ -1,3 +1,10 @@
+// Function to retrieve poetry form data.
+
+/**
+ * Extract data from form inputs.
+ * 
+ * @returns {Object} poetic form output object.
+ */
 function getFormData(){
 
    const formOutput = {
@@ -45,8 +52,203 @@ function getFormData(){
    return formOutput;
 }
 
+// Pre-defined poetic forms
+// TODO break this out into it's own file
+const poeticForms = {
+   limerick: {
+      numberOfLines : 5,
+      rhymeScheme : "AABBA",
+      stanzaLineLength : 0,
+      poemDifferingLines: true,
+      stanzaDifferingLines: false,
+      syllablesPerLine : 0,
+      meter: "",
+      differingLinesSection : {
+         1 : {
+            meter: "(x)x/xx/xx/(x)(x)"
+         },
+         2 : { 
+            meter: "(x)x/xx/xx/(x)(x)"
+         },
+         3 : { 
+            meter: "(x)x/xx/(x)"
+         },
+         4: {
+            meter: "(x)x/xx/(x)"
+         },
+         5: {
+            meter: "(x)x/xx/xx/(x)(x)"
+         }
+      },
+   },
+   sonnet: {
+      numberOfLines : 14,
+      rhymeScheme : "ABAB CDCD EFEF GG",
+      stanzaLineLength : 0,
+      poemDifferingLines: false,
+      stanzaDifferingLines: false,
+      syllablesPerLine : 0,
+      meter: "x/x/x/x/x/",
+      differingLinesSection : {
+      },
+   },
+   haiku: {
+      numberOfLines : 3,
+      rhymeScheme : "",
+      stanzaLineLength : 0,
+      poemDifferingLines: true,
+      stanzaDifferingLines: false,
+      syllablesPerLine : 0,
+      meter: "",
+      differingLinesSection : {
+         1 : {
+            syllablesPerLine: 5
+         },
+         2 : { 
+            syllablesPerLine: 7
+         },
+         3 : { 
+            syllablesPerLine: 5
+         }
+      },
+   },
+   blankVerse: {
+      numberOfLines : 0,
+      rhymeScheme : "",
+      stanzaLineLength : 0,
+      poemDifferingLines: false,
+      stanzaDifferingLines: false,
+      syllablesPerLine : 0,
+      meter: "x/x/x/x/x/",
+      differingLinesSection : {
+      },
+   },
+   commonMeter: {
+      numberOfLines : 0,
+      rhymeScheme : "ABAB",
+      stanzaLineLength : 4,
+      poemDifferingLines: false,
+      stanzaDifferingLines: true,
+      syllablesPerLine : 0,
+      meter: "",
+      differingLinesSection : {
+         1 : {
+            meter: "x/x/x/x/"
+         },
+         2 : {
+            meter: "x/x/x/"
+         },
+         3 : {
+            meter: "x/x/x/x/"
+         },
+         4 : {
+            meter: "x/x/x/"
+         },
+      },
+   },
+
+}
+
+
 /**
- * Creates a  <field-group>, and initializes it to .disabled. <field-group> id = field.inputId + "-group".
+ * Loads a poetic form into the form form input fields.
+ * 
+ * @param {Object} field – An poetic form object:
+ */
+function loadFormData(form) {
+   
+   
+   $numberOfLinesInput.value = form.numberOfLines || null;
+   $rhymeSchemeInput.value = form.rhymeScheme || null;
+   $stanzaLineLengthInput.value = form.stanzaLineLength || null;
+   $differingLinesInput.checked = form.poemDifferingLines || form.stanzaDifferingLines;
+   $syllablesPerLineInput.value = form.syllablesPerLine;
+   $meterInput.value = form.meter || null;
+
+   updateDifferingLinesCheckboxState(form);
+   runDifferingLinesLogic(form);
+
+   if ($differingLinesInput.checked) {
+      Object.entries(form.differingLinesSection).forEach(([key, value]) => {
+         document.querySelector('#syllables-per-line-' + key).value = value.syllablesPerLine;
+         document.querySelector('#meter-' + key).value = value.meter || "";
+      });
+   }
+}
+
+function updateDifferingLinesCheckboxState(form) {
+   if (form.numberOfLines) {
+      document.querySelector('.poem-or-stanza').textContent = "Poem";
+      $differingLinesInput.id = "poem-differing-lines";
+      $differingLinesInput.name = "poem-differing-lines";
+      $differingLinesInput.disabled = false;
+   }
+   // this supercedes number of lines, if it exists
+   if (form.stanzaLineLength) {
+      document.querySelector('.poem-or-stanza').textContent = "Stanza";
+      $differingLinesInput.id = "stanza-differing-lines";
+      $differingLinesInput.name = "stanza-differing-lines";
+      $differingLinesInput.disabled = false;
+   }
+   // if neither are set, disable field
+   if(!form.stanzaLineLength && !form.numberOfLines){
+      $differingLinesInput.disabled = true;
+   }
+}
+
+/**
+ * Run this function to run thru all the differing lines checkbox logic:
+ * 1. Deconstucting differing line section.
+ * 2. Creating Differing Line Section again if needed, with correct values.
+ * 3. Activating and deactivating $syllablesPerLineInput and $meterInput. As needed
+ * 
+ * This function should be run anytime:
+ * 1. The Differing Lines Checkbox state may have changed
+ * 2. $syllablesPerLineInput or $meterInput may have gone from empty to non-empty or vice versa.
+ * 
+ * 
+ * @param {Object} form 
+ */
+function runDifferingLinesLogic(form) {
+   // deconstruct differing lines section
+   const $differingLinesSection = document.querySelector('.differing-lines-section');
+   if ($differingLinesSection) {
+      $differingLinesSection.remove();
+   }
+
+   // If Differing Lines Checkbox Checked
+   if (form.poemDifferingLines || form.stanzaDifferingLines){
+
+      // deactivate meter and syllables per line
+      $syllablesPerLineInput.disabled = true;
+      $meterInput.disabled = true;
+
+      let stanzaOrPoem = "";
+      let lineLength = 0;
+      if (form.poemDifferingLines) {
+         stanzaOrPoem = "poem";
+         lineLength = form.numberOfLines;
+      }
+      // stanza takes precedence, so if both exist, we overwrite
+      if (form.stanzaDifferingLines) {
+         stanzaOrPoem = "stanza";
+         lineLength = form.stanzaLineLength;
+      }
+      createAndPlaceDifferingLinesSection(lineLength, stanzaOrPoem);
+   }
+   // otherwise, reactivate the fields and be merry
+   else{
+      // activate meter and syllables per line
+      $syllablesPerLineInput.disabled = false;
+      $meterInput.disabled = false;
+   }
+}
+
+
+
+/**
+ * Creates a  <field-group>
+ * <field-group> id = field.inputId + "-group".
  * 
  * Example of what the javascript generates
    		<field-group>
@@ -131,19 +333,21 @@ function createAndPlaceDifferingLinesSection(lineLength, stanzaOrPoem) {
    }
 }
 
+// GLOBAL VARIABLES
+
+const $predefinedFormSelect = document.querySelector('#predefined-form');
+const $numberOfLinesInput = document.querySelector('#number-of-lines');
+const $stanzaLineLengthInput = document.querySelector('#stanza-line-length');
+const $rhymeSchemeInput = document.querySelector('#rhyme-scheme');
+const $syllablesPerLineInput = document.querySelector('#syllables-per-line');
+const $meterInput = document.querySelector('#meter');
+
+// generic differing lines checkbox selector
+const $differingLinesInput = document.querySelector('.differing-lines');
+
 
 // MAIN EVENT, LET"S GOO, WEE-OOO WEEE_OOOOO
 document.addEventListener('DOMContentLoaded', function() {
-
-   // declare the fieldgroup inputs
-   const $numberOfLinesInput = document.querySelector('#number-of-lines');
-   const $stanzaLineLengthInput = document.querySelector('#stanza-line-length');
-   const $rhymeSchemeInput = document.querySelector('#rhyme-scheme');
-   const $syllablesPerLineInput = document.querySelector('#syllables-per-line');
-   const $meterInput = document.querySelector('#meter');
-
-   // generic differing lines checkbox selector
-   const $differingLinesInput = document.querySelector('.differing-lines');
 
    document.addEventListener('input', function(event) {
 
@@ -154,14 +358,26 @@ document.addEventListener('DOMContentLoaded', function() {
       const $poemDifferingLinesInput = document.getElementById('poem-differing-lines')
       const $stanzaDifferingLinesInput = document.getElementById('stanza-differing-lines');
 
-      // differingLinesSections
+      // specific differingLinesSections
       const $poemDifferingLinesSection = document.getElementById('poem-differing-lines-section');
       const $stanzaDifferingLinesSection = document.getElementById('stanza-differing-lines-section');
 
+      // generic differingLinesSection
+      const $differingLinesSection = document.querySelector('.differing-lines-section');
+
+
+      
 
       /*******************
        * EVENT DELEGATION
        *******************/
+
+      // PREDEFINED FORM
+      if (event.target == $predefinedFormSelect) {
+         loadFormData(poeticForms[$predefinedFormSelect.value]);
+      }
+
+      // TODO: set up a "clear" button next to it to cancel pre-define form
 
       // STRICT LINES
       if (event.target == $numberOfLinesInput) {
@@ -196,7 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
          // TODO it would be nice if this preserved what input there was there currently;
          if ($poemDifferingLinesInput && $poemDifferingLinesInput.checked == true) {
             // deconstruct and update
-            console.log("updating poemDifferingLinesSection")
             $poemDifferingLinesSection.remove();
             let lineLength = event.target.value;
             createAndPlaceDifferingLinesSection(lineLength, 'poem');
@@ -377,3 +592,5 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    })
 })
+
+

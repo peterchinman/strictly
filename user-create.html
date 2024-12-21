@@ -1,50 +1,49 @@
 <field-group>
-		<label for="form-select">Choose a Form</label>
-		<select name="poetic-forms" id="form-select">
-			<option value="">Select</option>
-			<option value="sonnet">Sonnet</option>
-			<option value="limerick">Limerick</option>
-			<option value="haiku">Haiku</option>
-			<option value="iambic-penatmeter">Iambic Pentameter</option>
-			<option value="acrostic">Acrostic</option>
-		</select>
-	</field-group>
+   <label for="form-select">Choose a Form</label>
+   <select name="poetic-forms" id="form-select">
+      <option value="" selected disabled hidden>Select</option>
+      <option value="sonnet">Sonnet</option>
+      <option value="limerick">Limerick</option>
+      <option value="haiku">Haiku</option>
+      <option value="iambic-penatmeter">Iambic Pentameter</option>
+   </select>
+</field-group>
 
-   <p class="or">or</p>
+<p class="or">or</p>
 
-   <field-group>
-		<label for="create-your-own">Create Your Own</label>
-		<button id="create-your-own" type="button">+</button>
-	</field-group>
+<field-group>
+   <label for="create-your-own">Create Your Own</label>
+   <button id="create-your-own" type="button">+</button>
+</field-group>
 
-   <style>
-      #create-your-own{
-         all: unset;
-         outline: revert;
-         font-size: 3rem;
-         font-weight: 100;
-         cursor: pointer;
-      
-         transition: transform .5s;
-      }
-      select {
-         padding: 10px 12px;
-         font-family: "Roboto Mono", monospace;
-         color: var(--neutral-500);
-      }
-      #create-your-own.active {
-         transform: rotate(45deg);
+<style>
+   #create-your-own{
+      all: unset;
+      outline: revert;
+      font-size: 3rem;
+      font-weight: 100;
+      cursor: pointer;
+   
+      transition: transform .5s;
+   }
+   select {
+      padding: 10px 12px;
+      font-family: "Roboto Mono", monospace;
+      color: var(--neutral-500);
+   }
+   #create-your-own.active {
+      transform: rotate(45deg);
 
-      }
-   </style>
+   }
+</style>
 
-   <script>
-      const createYourOwnButton = document.getElementById('create-your-own');
-      let customFormBoolean = false;
+<script>
+   const createYourOwnButton = document.getElementById('create-your-own');
+   let customFormBoolean = false;
 
 
-      createYourOwnButton.addEventListener('click', function() {
-         createYourOwnButton.classList.toggle('active');
-         customFormBoolean = !customFormBoolean;
-      })
-   </script>
+   createYourOwnButton.addEventListener('click', function() {
+      createYourOwnButton.classList.toggle('active');
+      customFormBoolean = !customFormBoolean;
+   })
+</script>

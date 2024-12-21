@@ -188,6 +188,10 @@ main {
 	h1 {
 		padding-bottom: 2rem;
 	}
+
+	p {
+		padding-top: 1.5rem;
+	}
 	field-group + field-group, label + label, field-group + label, label + field-group {
 		padding-top: 1.5rem;
 	}
@@ -212,6 +216,11 @@ main {
 	field-group:has(> input:disabled){
 		color: var(--neutral-500)
 	}
+
+	select {
+      padding: 10px 12px;
+      font-family: "Roboto Mono", monospace;
+   }
 
 	input {
 		font-family: var(--mono);
@@ -434,6 +443,8 @@ main {
 		
 	
 	}
+
+   
 	
 	
 }
