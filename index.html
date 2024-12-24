@@ -120,31 +120,40 @@
 				<!--
 				Example of what the javascript generates
 				<field-group>
-					<label for="number-of-lines">Number of Lines</label>
-					<input id="number-of-lines" name="number-of-lines" type="number">
+					<label for="poem-line-length">Poem Line Length</label>
+					<input id="poem-line-length" name="poem-line-length" type="number">
 				</field-group>
 				-->
 				
 				
 				<field-group>
-					<label for="rhyme-scheme">Rhyme Scheme</label>
+					<label for="rhyme-scheme"><span class="label-name">Rhyme Scheme</span></label>
 					<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty" placeholder="eg. ABAB">
 				</field-group>
 				<field-group>
-					<label for="meter">Meter</label>
-					<input id="meter" name="meter" type="text" class="empty" placeholder="eg. x/x/x/x/">
+					<label for="rhyme-distance"><span class="label-name">Max Rhyme Distance</span></label>
+					<input id="rhyme-distance" name="rhyme-distance" type="number" value="0" min="0" max="255">
 				</field-group>
 				<field-group>
-					<label for="number-of-lines">Number of Lines</label>
-					<input id="number-of-lines" name="number-of-lines" type="number" class="empty">
+					<label for="meter"><span class="label-name">Meter</span></label>
+					<input id="meter" name="meter" type="text" class="empty" placeholder="eg. x/x/x/x/" pattern="[x\/\(\) \t\r\n\f]*" 
+  title="input.title = "Only 'x', '/', '(', ')' and whitespace are allowed.">
 				</field-group>
 				<field-group>
-					<label for="stanza-line-length">Stanza Line Length</label>
+					<label for="syllables-per-line"><span class="label-name">Syllables per Line</span></label>
+					<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
+				</field-group>
+				<field-group>
+					<label for="poem-line-length"><span class="label-name">Poem Line Length</span></label>
+					<input id="poem-line-length" name="poem-line-length" type="number" class="empty">
+				</field-group>
+				<field-group>
+					<label for="stanza-line-length"><span class="label-name">Stanza Line Length</span></label>
 					<input id="stanza-line-length" name="stanza-line-length" type="number" class="empty">
 				</field-group>
 				
 				<label class="checkbox-slider" class="differing-lines-label">
-					<span class="label"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
+					<span class="label-name"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
 					<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
 					<div class="toggle">
 						<div class="slider"></div>
@@ -154,10 +163,7 @@
 				</label>
 
 			
-				<field-group>
-					<label for="syllables-per-line">Syllables per Line</label>
-					<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
-				</field-group>
+				
 
 				
 				
@@ -174,9 +180,9 @@
 			<h1 class="loud-voice">Compose</h1>
 			<p>Start writing, press enter to validate a line.</p>
 			<div id="compose">
-				<div class="input-group">
-					<label for="line-0"><div class="rhyme-label"></div><div class="meter-label"></div></label>
-					<input id="line-0" name="line-0" type="text">
+				<div class="input-group" id="line-0-group">
+					<label for="line-0"></label>
+					<input id="line-0" name="line-0" type="text" class="compose-input">
 				</div>
 			</div>
 		</inner-column>

@@ -7,39 +7,42 @@
  */
 function getFormData(){
 
+   // Set all the defaults;
    const formOutput = {
-      numberOfLines: 0,
+      rhymeDistance: -1,
+      poemLineLength: 0,
       stanzaLineLength: 0,
       poemDifferingLines: false,
       stanzaDifferingLines: false,
       rhymeScheme: "",
       syllablesPerLine: 0,
       meter: "",
-      differingLines: {}
+      differingLinesSection: {}
    };
 
-   formOutput.numberOfLines = document.querySelector('#number-of-lines').value;
-   formOutput.stanzaLineLength = document.querySelector('#stanza-line-length').value;
+   formOutput.rhymeDistance = document.querySelector('#rhyme-distance').value || formOutput.rhymeDistance;
+   formOutput.poemLineLength = document.querySelector('#poem-line-length').value || formOutput.poemLineLength;
+   formOutput.stanzaLineLength = document.querySelector('#stanza-line-length').value || formOutput.stanzaLineLength;
    if (document.querySelector('#poem-differing-lines')){
-      formOutput.poemDifferingLines = document.querySelector('#poem-differing-lines').checked
+      formOutput.poemDifferingLines = document.querySelector('#poem-differing-lines').checked;
    }
    if (document.querySelector('#stanza-differing-lines')){
-      formOutput.stanzaDifferingLines = document.querySelector('#stanza-differing-lines').checked
+      formOutput.stanzaDifferingLines = document.querySelector('#stanza-differing-lines').checked;
    }
-   formOutput.rhymeScheme = document.querySelector('#rhyme-scheme').value;
+   formOutput.rhymeScheme = document.querySelector('#rhyme-scheme').value || formOutput.rhymeScheme;
 
    // differingLines?
    if(formOutput.poemDifferingLines || formOutput.stanzaDifferingLines) {
       const differingSyllables = document.querySelectorAll('.differing-syllables input');
       differingSyllables.forEach((element, index) => {
-         formOutput.differingLines[index] = formOutput.differingLines[index] || {};
-         formOutput.differingLines[index].differingSyllables = element.value || 0;
+         formOutput.differingLinesSection[index] = formOutput.differingLinesSection[index] || {};
+         formOutput.differingLinesSection[index].syllablesPerLine = element.value || 0;
       })
 
       const differingMeter = document.querySelectorAll('.differing-meter input');
       differingMeter.forEach((element, index) => {
-         formOutput.differingLines[index] = formOutput.differingLines[index] || {};
-         formOutput.differingLines[index].differingMeter = element.value || "";
+         formOutput.differingLinesSection[index] = formOutput.differingLinesSection[index] || {};
+         formOutput.differingLinesSection[index].meter = element.value || "";
       })
    }
    else {
@@ -56,7 +59,7 @@ function getFormData(){
 // TODO break this out into it's own file
 const poeticForms = {
    limerick: {
-      numberOfLines : 5,
+      poemLineLength : 5,
       rhymeScheme : "AABBA",
       stanzaLineLength : 0,
       poemDifferingLines: true,
@@ -82,7 +85,7 @@ const poeticForms = {
       },
    },
    sonnet: {
-      numberOfLines : 14,
+      poemLineLength : 14,
       rhymeScheme : "ABAB CDCD EFEF GG",
       stanzaLineLength : 0,
       poemDifferingLines: false,
@@ -93,7 +96,7 @@ const poeticForms = {
       },
    },
    haiku: {
-      numberOfLines : 3,
+      poemLineLength : 3,
       rhymeScheme : "",
       stanzaLineLength : 0,
       poemDifferingLines: true,
@@ -113,7 +116,7 @@ const poeticForms = {
       },
    },
    blankVerse: {
-      numberOfLines : 0,
+      poemLineLength : 0,
       rhymeScheme : "",
       stanzaLineLength : 0,
       poemDifferingLines: false,
@@ -124,7 +127,7 @@ const poeticForms = {
       },
    },
    commonMeter: {
-      numberOfLines : 0,
+      poemLineLength : 0,
       rhymeScheme : "ABAB",
       stanzaLineLength : 4,
       poemDifferingLines: false,
@@ -158,7 +161,7 @@ const poeticForms = {
 function loadFormData(form) {
    
    
-   $numberOfLinesInput.value = form.numberOfLines || null;
+   $poemLineLengthInput.value = form.poemLineLength || null;
    $rhymeSchemeInput.value = form.rhymeScheme || null;
    $stanzaLineLengthInput.value = form.stanzaLineLength || null;
    $differingLinesInput.checked = form.poemDifferingLines || form.stanzaDifferingLines;
@@ -176,14 +179,48 @@ function loadFormData(form) {
    }
 }
 
+/**
+ * Update error message on input.
+ * 
+ * 
+ * @param {HTMLElement} inputElement— the element to update the error on
+ * @param {string} errorMessage—the error to be updated
+ * @param {bool} bool—true equal set error, false equals remove error
+ */
+function updateError(inputElement, errorMessage, bool){
+   
+   label = inputElement.parentElement.querySelector('label');
+
+   // check if error already exists
+   const errorElements = label.querySelectorAll('.error');
+   for (const element of errorElements) {
+      if (element.textContent == errorMessage){
+         if (bool) {
+            return;
+         }
+         else {
+            element.remove();
+         }
+      }
+   }
+   // otherwise attach error if bool is true
+   if (bool) {
+      errorSpan = document.createElement('span');
+      errorSpan.classList.add('error');
+      errorSpan.textContent = errorMessage;
+      label.appendChild(errorSpan);
+   }
+   
+}
+
 function updateDifferingLinesCheckboxState(form) {
-   if (form.numberOfLines) {
+   if (form.poemLineLength) {
       document.querySelector('.poem-or-stanza').textContent = "Poem";
       $differingLinesInput.id = "poem-differing-lines";
       $differingLinesInput.name = "poem-differing-lines";
       $differingLinesInput.disabled = false;
    }
-   // this supercedes number of lines, if it exists
+   // this supercedes Poem Line Length, if it exists
    if (form.stanzaLineLength) {
       document.querySelector('.poem-or-stanza').textContent = "Stanza";
       $differingLinesInput.id = "stanza-differing-lines";
@@ -191,7 +228,7 @@ function updateDifferingLinesCheckboxState(form) {
       $differingLinesInput.disabled = false;
    }
    // if neither are set, disable field
-   if(!form.stanzaLineLength && !form.numberOfLines){
+   if(!form.stanzaLineLength && !form.poemLineLength){
       $differingLinesInput.disabled = true;
    }
 }
@@ -227,7 +264,7 @@ function runDifferingLinesLogic(form) {
       let lineLength = 0;
       if (form.poemDifferingLines) {
          stanzaOrPoem = "poem";
-         lineLength = form.numberOfLines;
+         lineLength = form.poemLineLength;
       }
       // stanza takes precedence, so if both exist, we overwrite
       if (form.stanzaDifferingLines) {
@@ -252,8 +289,8 @@ function runDifferingLinesLogic(form) {
  * 
  * Example of what the javascript generates
    		<field-group>
-				<label for="number-of-lines">Number of Lines</label>
-				<input id="number-of-lines" name="number-of-lines" type="number">
+				<label for="poem-line-length">Poem Line Length</label>
+				<input id="poem-line-length" name="poem-line-length" type="number">
 			</field-group>
  * 
  * @param {Object} field – An Object containing the following properties:
@@ -265,7 +302,6 @@ function runDifferingLinesLogic(form) {
  */
 function createFieldGroup(field) {
 
-    
       // Create field-group
       const fieldGroup = document.createElement('field-group');
       fieldGroup.setAttribute('id', field.inputId + '-group');
@@ -276,7 +312,11 @@ function createFieldGroup(field) {
       // Create label
       const label = document.createElement('label');
       label.setAttribute('for', field.inputID);
-      label.textContent = field.labelText;
+      
+      const labelName = document.createElement('span');
+      labelName.classList.add('label-name');
+      labelName.textContent = field.labelText;
+      label.appendChild(labelName);
 
       // Create the input
       const input = document.createElement('input');
@@ -285,6 +325,18 @@ function createFieldGroup(field) {
       input.type = field.type;
       input.classList.add('empty');
       // input.setAttribute('disabled', true);
+
+      if(field.labelText === "Meter") {
+         // ridiculous triple escaping the backslash
+         input.pattern = "[x\\\/\\\(\\\) \\t\\r\\n\\f]*";
+         input.title = "Only 'x', '/', '(', ')' and whitespace are allowed."
+         input.classList.add('meter');
+      }
+
+      if(field.labelText === "Syllables per Line") {
+         input.min = 0;
+         input.classList.add('syllable');
+      }
 
       // Append the label and input to the field-group
       fieldGroup.appendChild(label);
@@ -336,9 +388,10 @@ function createAndPlaceDifferingLinesSection(lineLength, stanzaOrPoem) {
 // GLOBAL VARIABLES
 
 const $predefinedFormSelect = document.querySelector('#predefined-form');
-const $numberOfLinesInput = document.querySelector('#number-of-lines');
+const $poemLineLengthInput = document.querySelector('#poem-line-length');
 const $stanzaLineLengthInput = document.querySelector('#stanza-line-length');
 const $rhymeSchemeInput = document.querySelector('#rhyme-scheme');
+const $rhymeDistanceInput = document.querySelector('#rhyme-distance')
 const $syllablesPerLineInput = document.querySelector('#syllables-per-line');
 const $meterInput = document.querySelector('#meter');
 
@@ -372,19 +425,35 @@ document.addEventListener('DOMContentLoaded', function() {
        * EVENT DELEGATION
        *******************/
 
-      // PREDEFINED FORM
+      // if input is either rhyme, meter, or syllable related, we need to regenerate the inputGroupIndicators for all compose inputs
+      if (event.target == $rhymeSchemeInput
+         || event.target == $meterInput
+         || event.target.matches('.differing-meter input')
+         || event.target == $syllablesPerLineInput
+         || event.target.matches('.differing-syllables input')
+      ) {
+         // updateAllInputGroupIndicators();
+      }
+
+      // PREDEFINED FORM PICKED
       if (event.target == $predefinedFormSelect) {
          loadFormData(poeticForms[$predefinedFormSelect.value]);
+         // select all input groups
+
+         updateAllInputGroupIndicators();
+
+         // rerun all lines
+         checkAllLines();
       }
 
       // TODO: set up a "clear" button next to it to cancel pre-define form
 
-      // STRICT LINES
-      if (event.target == $numberOfLinesInput) {
+      // POEM LINE LENGTH
+      if (event.target == $poemLineLengthInput) {
          // event: empty to non-empty
-         if ($numberOfLinesInput.classList.contains('empty') && $numberOfLinesInput.value > 0) {
+         if ($poemLineLengthInput.classList.contains('empty') && $poemLineLengthInput.value > 0) {
             // no longer empty
-            $numberOfLinesInput.classList.remove('empty');
+            $poemLineLengthInput.classList.remove('empty');
 
             // activate poem-differing-lines
             if ($poemDifferingLinesInput) {
@@ -393,8 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
          }
          // event: non-empty to empty
-         else if($numberOfLinesInput.value <= 0){
-            $numberOfLinesInput.classList.add('empty');
+         else if($poemLineLengthInput.value <= 0){
+            $poemLineLengthInput.classList.add('empty');
 
             // disable differing lines
             if ($poemDifferingLinesInput){
@@ -418,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function() {
          }
       }
 
-      // REPEATING STANZAS
+      // STANZA LINE LENGTH
       if (event.target == $stanzaLineLengthInput) {
          // event: empty to non-empty
          if ($stanzaLineLengthInput.classList.contains('empty') && $stanzaLineLengthInput.value > 0) {
@@ -453,18 +522,18 @@ document.addEventListener('DOMContentLoaded', function() {
                // deconstruct
                $stanzaDifferingLinesSection.remove();
                
-               if ($numberOfLinesInput.value > 0) {
-                  let lineLength = $numberOfLinesInput.value;
+               if ($poemLineLengthInput.value > 0) {
+                  let lineLength = $poemLineLengthInput.value;
                   createAndPlaceDifferingLinesSection(lineLength, "poem")
                }
             }
 
-            if (! $numberOfLinesInput.value > 0) {
+            if (! $poemLineLengthInput.value > 0) {
                $differingLinesInput.disabled = true;
             }
          }
 
-         // If stanza differing lines is checked we need to reconstruct the differing section with the correct number of lines
+         // If stanza differing lines is checked we need to reconstruct the differing section with the correct Poem Line Length
          // TODO it would be nice if this preserved what input there was there currently;
          if ($stanzaDifferingLinesInput && $stanzaDifferingLinesInput.checked == true) {
             // deconstuct and update
@@ -474,41 +543,89 @@ document.addEventListener('DOMContentLoaded', function() {
          }
       }
       
-      // STRICT RHYME SCHEME
+      // RHYME SCHEME
       if (event.target == $rhymeSchemeInput) {
-         // event: empty to non-empty
-         if ($rhymeSchemeInput.classList.contains('empty') && $rhymeSchemeInput.value != "") {
-            // activate 
-            $rhymeSchemeInput.classList.remove('empty')
+         // event: there is input
+         if ($rhymeSchemeInput.value != "") {
+            // event: empty to non-empty
+            if ($rhymeSchemeInput.classList.contains('empty')){
+               // activate 
+               $rhymeSchemeInput.classList.remove('empty')
+
+               // we need to add Rhyme Indicator to all inputs
+               addIndicatorToAllInputs("rhyme");
+            }
+            
+
+            // rhyme scheme has changed, we should re-check all rhmyes
+            console.log("rhyme scheme change, we should check all rhymes")
+            checkAll('rhyme');
+
+         }
+         // event: non-empty to empty
+         else{
+            $rhymeSchemeInput.classList.add('empty')
+
+            // remove Rhyme Indicator from all inputs
+            removeIndicatorFromAllInputs('rhyme');
+         }
+         
+      }
+
+      // RHYME DISTANCE
+      if (event.target == $rhymeDistanceInput) {
+         // recheck all rhymes
+         checkAll('rhyme');
+      }
+      
+      // SYLLABLES PER LINE
+      if (event.target == $syllablesPerLineInput) {
+         // event: there is input
+         if ($syllablesPerLineInput.value > 0) {
+            // event: empty to non-empty
+            if($syllablesPerLineInput.classList.contains('empty')){
+               $syllablesPerLineInput.classList.remove('empty');
+
+               // we need to add syllable indicator to all inputs
+               addIndicatorToAllInputs("syllable");
+            }
+
+            // syllables have changed, we should re-check all syllables
+            checkAll('syllable');
+            
          }
          // event: non-empty to empty
          else {
-            $rhymeSchemeInput.classList.add('empty')
-         }
-      }
-      
-      // STRICT SYLLABLE COUNT
-      if (event.target == $syllablesPerLineInput) {
-         // event: empty to non-empty
-         if ($syllablesPerLineInput.classList.contains('empty') && $syllablesPerLineInput.value > 0) {
-            $syllablesPerLineInput.classList.remove('empty');
-         }
-         // event: unchecked
-         else if ($syllablesPerLineInput.value <= 0) {
             // deactivate syllables per line
             $syllablesPerLineInput.classList.add('empty');
+
+            // remove meter indicator from all inputs
+            removeIndicatorFromAllInputs('syllable');
          }
       }
 
-      // STRICT METER
+      // METER
       if (event.target == $meterInput) {
-         // event: empty to non-empty
-         if ($meterInput.classList.contains('empty') && $meterInput.value != "") {
-            $meterInput.classList.remove('empty');
+         // event: there is input
+         if ($meterInput.value != "") {
+            // event: empty to non-empty
+            if($meterInput.classList.contains('empty')){
+               $meterInput.classList.remove('empty');
+
+               // we need to add meter indicator to all inputs
+               addIndicatorToAllInputs("meter");
+            }
+
+            // meter has changed, we should re-check all meters
+            checkAll('meter');
+            
          }
          // event: non-empty to empty
          else {
             $meterInput.classList.add('empty');
+            // remove meter indicator from all inputs
+            removeIndicatorFromAllInputs('meter');
+
          }
       }
 
@@ -517,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
          // event: checked
          if ($poemDifferingLinesInput && $poemDifferingLinesInput.checked == true) {
             // get line length
-            let lineLength = $numberOfLinesInput.value;
+            let lineLength = $poemLineLengthInput.value;
             // create differing line section
             createAndPlaceDifferingLinesSection(lineLength, 'poem');
             // deactivate regular syllable and meter inputs
@@ -563,33 +680,102 @@ document.addEventListener('DOMContentLoaded', function() {
 
       // if (event.target == )
 
+
+
       // FORM VALIDATION LOGIC
 
-      if (event.target == $numberOfLinesInput || event.target == $stanzaLineLengthInput) {
-         let poemLines = $numberOfLinesInput.value;
+      
+      // POEM LINE LENGTH MUST BE DIVISIBLE BY STANZA LINE LENGTH
+      if (event.target == $poemLineLengthInput || event.target == $stanzaLineLengthInput) {
+         const errorMessage = "Poem Line Length must be divisible by Stanza Line Length"
+         let poemLines = $poemLineLengthInput.value;
          let stanzaLines = $stanzaLineLengthInput.value;
 
          if ((poemLines > 0 && stanzaLines > 0) && (poemLines % stanzaLines != 0)){
-            $stanzaLineLengthInput.setCustomValidity("Number of Lines must be divisible by Stanza Line Length");
+            updateError($stanzaLineLengthInput, errorMessage, true);
+            updateError($poemLineLengthInput, errorMessage, true);
          }
          else {
-            $stanzaLineLengthInput.setCustomValidity("");
+            updateError($stanzaLineLengthInput, errorMessage, false);
+            updateError($poemLineLengthInput, errorMessage, false);
+         }
+         
+      }
+
+      // Rhyme Scheme must match either Poem Length or Stanza Length
+      if (event.target === $rhymeSchemeInput || ($rhymeSchemeInput.value && event.target === $poemLineLengthInput) || ($rhymeSchemeInput.value && event.target === $stanzaLineLengthInput)) {
+         const errorMessage = "Rhyme Scheme Length must match either Stanza Line Length or Poem Line Length";
+
+         let userRhymeInput = $rhymeSchemeInput.value;
+         
+         // strip whitespace from Input
+         userRhymeInput = userRhymeInput.trim();
+         userRhymeInput = userRhymeInput.replace(/\s/g, "");
+         rhymeSchemeLength = userRhymeInput.length;
+
+         
+         poemLineLength = parseInt($poemLineLengthInput.value) || 0;
+         stanzaLineLength = parseInt($stanzaLineLengthInput.value) || 0;
+
+         if (rhymeSchemeLength && (poemLineLength || stanzaLineLength) && (rhymeSchemeLength !== poemLineLength && rhymeSchemeLength !== stanzaLineLength)){
+            
+            // $rhymeSchemeInput.setCustomValidity(errorMessage);
+            updateError($rhymeSchemeInput, errorMessage, true);
+         } 
+         else {
+            // $rhymeSchemeInput.setCustomValidity("");
+            updateError($rhymeSchemeInput, errorMessage, false);
+         }     
+      }
+
+
+      // METER INPUT LENGTH NEEDS TO MATCH SYLLABLE COUNT
+
+      // METER INPUT ONLY CONTAINS 'x' '/' and whitespace
+      if(event.target === $meterInput || event.target.matches('.meter')) {
+         const errorMessage = "Only 'x', '/', '(', ')' and whitespace are allowed."
+         if(!event.target.checkValidity()) {
+            updateError(event.target, errorMessage, true);
+         }
+         else {
+            updateError(event.target, errorMessage, false);
          }
       }
 
-      if (event.target == $rhymeSchemeInput) {
-         let userInput = event.target.value;
-         // TODO check if userInput uses only alphabet
-         // TODO check if userInput has the correct number of characters    
+      // METER INPUT parentheses validation
+      if(event.target === $meterInput || event.target.matches('.meter')) {
+         const errorMessage = "Parentheses error"
+
+         const inputString = event.target.value;
+
+         let openParen = false;
+         let errorFlag = false;
+         for (const char of inputString) {
+            if (char === '('){
+               // if paren already open
+               if(openParen){
+                  errorFlag = true;
+               }
+               openParen = true;
+            }
+            if (char === ')'){
+               if(!openParen) {
+                  errorFlag = true;
+               }
+               openParen = false;
+            }
+         }
+
+         if(errorFlag) {
+            updateError(event.target, errorMessage, true);
+         }
+         else {
+            updateError(event.target, errorMessage, false);
+         }
       }
 
-      // TODO check to make sure query selector is working here
-      if (event.target == $meterInput || event.target == document.querySelectorAll('.differing-meter') ) {
-         let userInput = event.target.value;
-         // TODO check if userInput uses only 'x' and '/'
-         // TODO check that number of syllables matches syllables per line, if it exists. 
-         
-      }
+
+
    })
 })
 
