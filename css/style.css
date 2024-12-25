@@ -104,9 +104,6 @@ main {
 }
 
 
-
-
-
 #meter-validator {
 
 	details {
@@ -431,60 +428,7 @@ main {
 			align-items: center;
 		}
 
-		.indicator{
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			top: 1.2rem;
-			left: .4rem;
-			background-color: var(--unknown);
-		}
-
-		.meter-indicator {
-			
-			&.exception {
-				background-color: var(--unknown);
-			}
-			&.good {
-				background-color: var(--good);
-				border: 2px solid black;
-			}
-			&.bad {
-				background-color: var(--bad-meter);
-				/* position: absolute; */
-			
-			}
-		}
 		
-		
-		.rhyme-indicator {
-			&.exception {
-				background-color: var(--unknown);
-			}
-			&.good {
-				background-color: var(--good);
-				border: 2px solid black;
-			}
-			&.bad {
-				background-color: var(--bad-rhyme);
-			}
-		}
-
-		.syllable-indicator {
-			&.exception {
-				background-color: var(--unknown);
-			}
-			&.good {
-				background-color: var(--good);
-				border: 2px solid black;
-				
-			}
-			&.bad {
-				background-color: var(--bad-syllable);
-				/* position: absolute; */
-				
-			}
-		}
 		
 	
 	}
@@ -492,6 +436,85 @@ main {
    
 	
 	
+}
+
+.indicator-legend {
+	display: flex;
+	/* flex-direction: column; */
+	gap: 1rem;
+
+	.legend-item {
+		display: flex;
+		gap: .6rem;
+		align-items: center;
+
+		.legend {
+			width: 1lh;
+			height: 1lh;
+			border-radius: 50%;
+		}
+	}
+}
+
+
+.indicators {
+	display: flex;
+	gap: 8px;
+
+	.indicator{
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		top: 1.2rem;
+		left: .4rem;
+		/* background-color: var(--unknown); */
+	}
+}
+
+.meter-indicator {
+	
+	&.exception {
+		background-color: var(--unknown);
+	}
+	&.good {
+		background-color: var(--good);
+		border: 2px solid black;
+	}
+	&.bad {
+		background-color: var(--bad-meter);
+		/* position: absolute; */
+	
+	}
+}
+
+
+.rhyme-indicator {
+	&.exception {
+		background-color: var(--unknown);
+	}
+	&.good {
+		background-color: var(--good);
+		border: 2px solid black;
+	}
+	&.bad {
+		background-color: var(--bad-rhyme);
+	}
+}
+
+.syllable-indicator {
+	&.exception {
+		background-color: var(--unknown);
+	}
+	&.good {
+		background-color: var(--good);
+		border: 2px solid black;
+		
+	}
+	&.bad {
+		background-color: var(--bad-syllable);
+		/* position: absolute; */
+		
+	}
 }
 
 

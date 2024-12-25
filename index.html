@@ -178,10 +178,24 @@
 	<section class="composing-section">
 		<inner-column>
 			<h1 class="loud-voice">Compose</h1>
+			<ul class="indicator-legend">
+				<li class="legend-item">
+					<div class="legend rhyme-indicator bad"></div>
+					<div>rhyme</div>
+				</li>
+				<li class="legend-item">
+					<div class="legend meter-indicator bad"></div>
+					<div>meter</div>
+				</li>
+				<li class="legend-item">
+					<div class="legend syllable-indicator bad"></div>
+					<div>syllable</div>
+				</li>
+			</ul>
 			<p>Start writing, press enter to validate a line.</p>
 			<div id="compose">
 				<div class="input-group" id="line-0-group">
-					<label for="line-0"></label>
+					<label for="line-0" class="indicators"></label>
 					<input id="line-0" name="line-0" type="text" class="compose-input">
 				</div>
 			</div>

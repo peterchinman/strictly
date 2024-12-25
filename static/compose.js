@@ -30,11 +30,12 @@ function addIndicator(label, type){
 }
 
 // receives a poetic form, which it uses to generate the correct Indicators for Rhmye, Meter, and Syllable checking
-// this should be run whenever there is input on the form THAT REQUIRES it
+// this should be run whenever there is input on the form that *might* change rhyme, meter, and/or syllable, but we don't know which in particular to run.
 //    i.e. Rhmye Meter or Syllable inputs
 // ALSO should be run whenever we create a new input
 function createAndPlaceInputGroupIndicators(form, lineNumber) {
    console.log(form);
+
       // first let's clear current indicators
       const label = document.querySelector('label[for="line-' + lineNumber + '"]');
       const indicators = label.querySelectorAll('.indicator')
@@ -93,6 +94,7 @@ function createNewInputGroup() {
 
    let $label = document.createElement('label');
    $label.setAttribute("for", id);
+   $label.classList.add('indicators');
 
    let $input = document.createElement('input')
    $input.id = id;
