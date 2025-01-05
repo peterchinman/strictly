@@ -369,19 +369,6 @@ CMUDict.init().then( () => {
 
    compose.addEventListener('keydown', function(event) {
       if (event.target.matches('input')) {
-
-         if (event.target.id != 'line-0') {
-            if (event.key === "Backspace") {
-               if (event.target.value === "") {
-                  let id = parseInt(event.target.id.slice(5));
-                  event.target.parentElement.remove();
-                  document.querySelector('#line-' + (id - 1)).focus();
-                  reorganizeLineId();
-               }
-            }
-
-         }
-         
          if (event.key === "Enter") {
             // create a new input beneath current one
             let newInput = createNewInputGroup();
@@ -396,6 +383,20 @@ CMUDict.init().then( () => {
 
             reorganizeLineId();
          }
+
+         if (event.target.id != 'line-0') {
+            if (event.key === "Backspace") {
+               if (event.target.value === "") {
+                  let id = parseInt(event.target.id.slice(5));
+                  event.target.parentElement.remove();
+                  document.querySelector('#line-' + (id - 1)).focus();
+                  reorganizeLineId();
+               }
+            }
+
+         }
+         
+         
 
          if (event.key === "ArrowUp") {
             let id = parseInt(event.target.id.slice(5))

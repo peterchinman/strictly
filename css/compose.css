@@ -1,4 +1,4 @@
-.composing-section {
+.compose-panel {
 
 	p + #compose, h2 + #compose {
 		margin-top: 2rem;
@@ -30,6 +30,7 @@
 	}
 
    .indicator-labels {
+      margin-top: 3rem;
       display: flex;
       flex-direction: row;
       justify-content: flex-end;

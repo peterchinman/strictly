@@ -457,6 +457,11 @@ input {
 	section {
 		padding-inline: 2rem;
 	}
+
+	.compose-panel {
+		max-height: 100%;
+		overflow-y: scroll;
+	}
 	
 
 	.form-panel {
