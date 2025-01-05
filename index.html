@@ -13,6 +13,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,100,1;1,9..144,100..900,100,1&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
 	<link href="css/style.css" rel="stylesheet">
+
+	
 </head>
 
 <body hx-boost="true">
@@ -21,12 +23,21 @@
 	<top-part>
 	<inner-column>
 		<ul class="title-bar">
-			<li class="title"><a href="/">strictly</a></div>
-			<li class="login"><a href="login.html">log in</a></div>
+			<li class="title"><a href="/">strictly</a></li>
+			<li>
+				<div class="option-slider">
+					<span id="explanations-label" class="mono">Explanations?</span>
+					<label class="switch-container">
+						<input type="checkbox" id="show-explanations" aria-describedby="explanations-label" checked />
+						<div class="slider round"></div>
+					</label>
+				</div>
+			</li>
+			<!-- <li class="login"><a href="login.html">log in</a></div> -->
 		</ul>
 	</inner-column>
 	</top-part>
-	<bottom-part>
+	<!-- <bottom-part>
 	<inner-column>
 		<nav>
 			<ul class="site-nav">
@@ -42,172 +53,170 @@
 			</ul>
 		</nav>
 	</inner-column>
-	</bottom-part>
+	</bottom-part> -->
 </header>
 
 <main>
-<grid-container>
-	<form id="create-form" action="">
+
+<section class="form-panel">
+<form id="create-form" action="">
+<inner-column>
+
+	<h1 class="loud-voice">Define</h1>
+
+
+	<field-group class="choose-a-form">
+
+		<label for="form-select" class="loud-instruction">
+			Choose a Form
+		</label>
+		<select name="predefined-form" id="predefined-form">
+			<option value="" selected disabled hidden>Select</option>
+			<option value="sonnet">Shakespearean Sonnet</option>
+			<option value="limerick">Limerick</option>
+			<option value="haiku">Haiku</option>
+			<option value="blankVerse">Blank Verse (Iambic Pentameter)</option>
+			<option value="commonMeter">Common Meter</option>
+		</select>
+	</field-group>
+
 	
-		<inner-column>
-
-			<h1 class="loud-voice">Define a Poetic Form</h1>
-
-
-			<field-group>
-			
-				<label for="form-select">You Can Choose a Pre-Defined Form</label>
-				<select name="predefined-form" id="predefined-form">
-					<option value="" selected disabled hidden>Select</option>
-					<option value="sonnet">Shakespearean Sonnet</option>
-					<option value="limerick">Limerick</option>
-					<option value="haiku">Haiku</option>
-					<option value="blankVerse">Blank Verse (Iambic Pentameter)</option>
-					<option value="commonMeter">Common Meter</option>
-				</select>
-			</field-group>
-
-			<p>Or, Create Your Own from Scratch:</p>
-
-			
-			<!--
-			<fieldset class="checkboxes" id="strict-checkboxes">
-				<label class="checkbox-slider" for="strict-lines">Strict # of Lines?
-					<input type="checkbox" id="strict-lines" value="strict-lines" name="strict-checkbox">
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-				<label class="checkbox-slider" for="repeating-stanzas">Repeating Stanzas?
-					<input type="checkbox" id="repeating-stanzas"
-					value="repeating-stanzas" name="strict-checkbox">
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-				<label class="checkbox-slider" for="strict-rhyme">Strict Rhyme Scheme?
-					<input type="checkbox" id="strict-rhyme" value="strict-rhyme" name="strict-checkbox" disabled>
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-				<label class="checkbox-slider" for="strict-syllable">Strict Syllable Count?
-					<input type="checkbox" id="strict-syllable" value="strict-syllable" name="strict-checkbox">
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-				<label class="checkbox-slider" for="strict-meter">Strict Meter?
-					<input type="checkbox" id="strict-meter"
-					value="strict-meter" name="strict-checkbox">
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-			</fieldset>
-			-->
-			<fieldset id="form-inputs">
-				<!--
-				Example of what the javascript generates
-				<field-group>
-					<label for="poem-line-length">Poem Line Length</label>
-					<input id="poem-line-length" name="poem-line-length" type="number">
-				</field-group>
-				-->
-				
-				
-				<field-group>
-					<label for="rhyme-scheme"><span class="label-name">Rhyme Scheme</span></label>
-					<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty" placeholder="eg. ABAB">
-				</field-group>
-				<field-group>
-					<label for="rhyme-distance"><span class="label-name">Max Rhyme Distance</span></label>
-					<input id="rhyme-distance" name="rhyme-distance" type="number" value="0" min="0" max="255">
-				</field-group>
-				<field-group>
-					<label for="meter"><span class="label-name">Meter</span></label>
-					<input id="meter" name="meter" type="text" class="empty" placeholder="eg. x/x/x/x/" pattern="[x\/\(\) \t\r\n\f]*" 
-  title="input.title = "Only 'x', '/', '(', ')' and whitespace are allowed.">
-				</field-group>
-				<field-group>
-					<label for="syllables-per-line"><span class="label-name">Syllables per Line</span></label>
-					<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
-				</field-group>
-				<field-group>
-					<label for="poem-line-length"><span class="label-name">Poem Line Length</span></label>
-					<input id="poem-line-length" name="poem-line-length" type="number" class="empty">
-				</field-group>
-				<field-group>
-					<label for="stanza-line-length"><span class="label-name">Stanza Line Length</span></label>
-					<input id="stanza-line-length" name="stanza-line-length" type="number" class="empty">
-				</field-group>
-				
-				<label class="checkbox-slider" class="differing-lines-label">
-					<span class="label-name"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
-					<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
-					<div class="toggle">
-						<div class="slider"></div>
-						<span id="no">NO</span>
-						<span id="yes">YES</span>
-					</div>
-				</label>
-
-			
-				
-
-				
-				
-			
-			</fieldset>
-			<!--
-			<button id="form-submit">Create</button>
-			-->
-		</inner-column>
-	</form>
 	
-	<section class="composing-section">
-		<inner-column>
-			<h1 class="loud-voice">Compose</h1>
-			<ul class="indicator-legend">
-				<li class="legend-item">
-					<div class="legend rhyme-indicator bad"></div>
-					<div>rhyme</div>
-				</li>
-				<li class="legend-item">
-					<div class="legend meter-indicator bad"></div>
-					<div>meter</div>
-				</li>
-				<li class="legend-item">
-					<div class="legend syllable-indicator bad"></div>
-					<div>syllable</div>
-				</li>
-			</ul>
-			<p>Start writing, press enter to validate a line.</p>
-			<div id="compose">
-				<div class="input-group" id="line-0-group">
-					<label for="line-0" class="indicators"></label>
-					<input id="line-0" name="line-0" type="text" class="compose-input">
+	<fieldset id="form-inputs">
+
+		<label id="create-your-own" class="loud-instruction">
+			<!-- <span class="triangle"></span> -->
+			<span class="text">Or, Create Your Own</span>
+			<!-- <input type="checkbox" checked> -->
+		</label>
+			
+		<field-group>
+			<label for="rhyme-scheme">
+				<span class="label-name">Rhyme Scheme</span>
+				<input id="rhyme-scheme" name="rhyme-scheme" type="text" class="empty" placeholder="eg. ABAB">
+			</label>
+				
+			<p class="explanation-text explanation">
+				Letters represent patterns of end-rhymes. The rhyme scheme is a repeating stanza unit, with the rhymes reset for each repetition. That is, "ABAB" will expand to "ABAB CDCD EFEF ...". Spaces are ignored.
+			</p>
+			
+		</field-group>
+		<field-group>
+			<label for="rhyme-distance">
+				<span class="label-name">Max Rhyme Distance</span><input id="rhyme-distance" name="rhyme-distance" type="number" value="0" min="0" max="255">
+			</label>
+				
+			<p class="explanation-text explanation">
+				Maximum distance between end-rhymes set in <strong>Rhyme Scheme</strong>. 0 = "perfect rhyme". Increasing distances loosen the scope of acceptable rhymes. E.g. at a value of 1, "orange" and "door hinge" rhyme; at 2, "bat" and "bit" rhyme. Right now, at values &lt;4, this works well for tracking vowel distance between words with identical consonant sounds. It is less useful for comparing similar sounding words with consonant differences. I have plans to expand this feature, so that you will be able to pick up the rhyme between, for example, "prosperous" and "hostages", which right now is lost in noise. <a href="rhyme-distance">Learn more</a>.
+			</p>
+		</field-group>
+		<field-group>
+			<label for="meter">
+				<span class="label-name">Meter</span>
+				<input id="meter" name="meter" type="text" class="empty" placeholder="eg. x/x/x/x/" pattern="[x\/\(\) \t\r\n\f]*"
+	title="input.title = "Only 'x', '/', '(', ')' and whitespace are allowed.">
+			</label>
+				
+			<p class="explanation-text explanation">
+				<strong>x</strong> represents an unstressed syllable, <strong>/</strong> a stressed syllable. Parentheses can be used to indicate optional sections. E.g. "x/(x/)" will match "x/" and "x/x/". Multiple parentheses may be used, but they may not be nested. Spaces are ignored.
+			</p>
+			
+		</field-group>
+		<field-group>
+			<label for="syllables-per-line">
+				<span class="label-name">Syllables per Line</span>
+				<input id="syllables-per-line" name="syllables-per-line" type="number" class="empty">
+			</label>
+
+			<p class="explanation-text explanation">
+				Can accept ranges, e.g. "9-11" will match a sequence of nine, ten, or eleven syllables.
+			</p>
+			
+		</field-group>
+		<field-group>
+			<label for="poem-line-length">
+				<span class="label-name">Poem Line Length</span>
+				<input id="poem-line-length" name="poem-line-length" type="number" class="empty">
+			</label>
+
+			<p class="explanation-text explanation">
+				Can accept ranges, e.g. "9-11" will match a poem of nine, ten, or eleven lines.
+			</p>
+			
+		</field-group>
+		<field-group>
+			<label for="stanza-line-length">
+				<span class="label-name">Stanza Line Length</span>
+				<input id="stanza-line-length" name="stanza-line-length" type="number" class="empty">
+			</label>
+
+			<p class="explanation-text explanation">
+				Can accept ranges, e.g. "9-11" will match a stanza of nine, ten, or eleven lines. Stanzas are repeating units, separated by blank lines. 
+			</p>
+			<p class="requirements"> </p>
+		</field-group>
+		<field-group>
+			<label class="checkbox-slider" class="differing-lines-label">
+				<span class="label-name"><span class="poem-or-stanza">Poem</span> Contains Differing Lines?</span>
+				<input type="checkbox" id="poem-differing-lines" class="differing-lines" name="poem-differing-lines" disabled>
+				<div class="toggle">
+					<div class="slider"></div>
+					<span id="no">NO</span>
+					<span id="yes">YES</span>
 				</div>
-			</div>
-		</inner-column>
-	</section>
-</grid-container>
+			</label>
 
+			<p class="explanation-text explanation">
+				<strong>Yes</strong> means that <span class="poem-or-stanza">Poem</span> contains lines with different meter or syllable length restrictions. <strong>No</strong> means that <span class="poem-or-stanza">Poem</span> contain lines wiht the same meter or syllable length restrictions.
+			</p>
+		</field-group>
+	</fieldset>
+</inner-column>
+</form>
+</section>
+	
+<section class="composing-section">
+<inner-column>
+	<h1 class="loud-voice">Compose</h1>
+	<p class="explanation-text explanation">At the end of each line, you'll see a series of indicators.</p>
+	<p class="explanation-text explanation">The single letters at the top are labels for Rhyme, Meter, and Syllable.</p>
+	<p class="explanation-text explanation">The symbols in each line below mean:</p>
+	<ul class="explanation copy">
+		<li class="legend-item explanation-text copy">
+			<div class="indicator meter-indicator good"></div>
+			<div>valid</div>
+		</li>
+		<li class="legend-item explanation-text copy">
+			<div class="indicator rhyme-indicator bad"></div>
+			<div>invalid</div>
+		</li>
+		<li class="legend-item explanation-text copy">
+			<div class="indicator meter-indicator"></div>
+			<div>did not process</div>
+		</li>
+	</ul>
+	<p class="explanation explanation-text">The most likely reason a line did not process is that an unrecognized word was used.</p>
+	<h2>Write below, press enter to validate a line.</h2>
+	<ul class="indicator-labels">
+		<li><span>R</span></li>
+		<li><span>M</span></li>
+		<li><span>S</span></li>
+	</ul>
+	<div id="compose">
+		<div class="input-group" id="line-0-group">
+			<input id="line-0" name="line-0" type="text" class="compose-input">
+			<label for="line-0" class="indicators"></label>
+		</div>
+	</div>
+</inner-column>
+</section>
 
 </main>
 	
+
 <script src="static/rhyme-and-meter.js"></script>
 <script src="static/form-logic.js"></script>
 <script src="static/compose.js"></script>
+
 </body>
 </html>

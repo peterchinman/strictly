@@ -1,45 +1,9 @@
 @import 'reset.css';
+@import 'variables.css';
 @import 'setup.css';
+@import 'compose.css';
+@import 'typography.css';
 
-:root {
-	--neutral-0: 		#FFFFFF;
-	--neutral-20:		#FAFAFA;
-	--neutral-30:		#F7F7F7;
-	--neutral-50:		#F2F2F2;
-	--neutral-100:		#E5E5E5;
-	--neutral-200: 	#CCCCCC;
-	--neutral-300: 	#B2B2B2;
-	--neutral-400: 	#999999;
-	--neutral-500:		#808080;
-	--neutral-600:		#666666;
-	--neutral-700:		#4D4D4D;
-	--neutral-800:		#333333;
-	--neutral-900:		#1A1A1A;
-	--neutral-1000:	#000000;
-
-	--ink: var(--neutral-1000);
-
-	--unknown: var(--neutral-200);
-	--good: var(--neutral-0);
-	--bad-rhyme: oklch(87.5% 0.09 100);
-	--bad-meter: oklch(87.5% 0.09 220);
-	--bad-syllable: oklch(87.5% 0.09 340);
-
-	--light-red: #F7E9E9;
-	--red: #E07070;
-	--light-green: #EDF7E9;
-	--green: #CDF2C5;
-
-	--border-color: var(--neutral-500);
-	--border-disabled-color: var(--neutral-200);
-
-	--bg-color: var(--neutral-0);
-	--inner-column: 1600px;
-	--inner-column-padding: 12px;
-	--form-width: 450px;
-
-	--mono: "Roboto Mono", monospace;
-}
 
 body {
 	background-color: var(--bg-color);
@@ -48,12 +12,16 @@ body {
 
 inner-column {
 	padding-inline: var(--inner-column-padding);
+	max-width: 600px;
+	margin-inline: auto;
 }
 
 header {
+	background-color: var(--neutral-100);
 	top-part {
 
-		margin-block: 1.5rem;
+		padding-block: 1.5rem;
+		
 		
 		.title-bar {
 			display: flex;
@@ -100,125 +68,131 @@ header {
 }
 
 main {
-	/* padding-bottom: 4rem; */
+	
+	font-family: var(--mono);
+	> section {
+		padding-block: 2rem;
+	}
+
+	.explanation {
+		display: none;
+
+		body:has(#show-explanations:checked) & {
+			display: block;
+		}
+	}
+
 }
 
 
-#meter-validator {
 
-	details {
-		padding-bottom: 2rem;
-		font-family: "Spectral", serif;
-	
-		summary {
-			padding-left: 0;
-			padding-right: 1rem;
-			font-family: "Roboto Mono", monospace;
-			background-color: var(--bg-color);
-			color: var(--ink);
-			list-style: none;
-			cursor: pointer;
-			position: relative;
-			/* text-decoration: underline; */
-			width: fit-content;
-			padding-block: 1rem;
-			padding-left: 1.2rem;
-	
-			&:hover{
-				background-color: var(--neutral-50);
-			}
-	
-		}
-		summary:before {
-			content: '';
-			border-width: .4rem;
+input {
+	box-sizing: border-box;
+	font-family: var(--mono);
+	font-size: 1rem;
+	border: unset;
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius);
+	padding-inline: var(--input-padding-inline);
 
-			border-style: solid;
-			border-color: transparent transparent transparent #000;
-			position: absolute;
-			top: 1.1rem;
-			left: .2rem;
-			transform: rotate(0);
-			transform-origin: .2rem 50%;
-			transition: .25s transform ease
-		}
-
-		& > *:not(summary){
-			padding-left: 1rem;
-			background-color: var(--neutral-50);
-			color: var(--neutral-900);
-		}
-		
-	
-		p:first-of-type {
-			padding-top: 1rem;
-		}
-	
-		p + p {
-			padding-top: .5rem;
-		}
-		
+	&:disabled {
+		border: 1px solid var(--border-disabled-color);
 	}
-	
-	details[open] {
-		summary {
-			background-color: var(--neutral-50);
+
+	&:invalid {
+		background-color: var(--light-red);
+	}
+
+	&[type='number']  {
+		width: 72px;
+		height: 45px;
+		text-align: center;
+		font-family: "Roboto Mono", monospace;
+	}
+
+	&[type='text']  {
+		min-width: 100%;
+		height: 45px;
+		font-family: "Roboto Mono", monospace;
+	}
+}
+
+
+
+.form-panel {
+	background-color: var(--neutral-50);
+
+	.choose-a-form {
+		padding-top: 2rem;
+
+		select {
+			border-radius: var(--border-radius);
+			padding: 10px 12px;
+			font-family: "Roboto Mono", monospace;
 		}
-		> summary:before {
+	}
+
+	.explanation {
+		padding-top: .5rem;
+	}
+
+	/*
+	// START SECTION
+	// Below is styling to have a click-to-reveal Create Your Own section
+	#create-your-own {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		cursor: pointer;
+
+		.triangle {
+			height: 15px;
+			aspect-ratio: 1 / 2;
+			clip-path: polygon(0 0, 100% 50%, 0 100%);
+			background-color: var(--ink);
+			transition: all .3s;
+		}
+
+		&:has(input:checked) .triangle {
+			transform-origin: 50% 50%;
 			transform: rotate(90deg);
 		}
 
+		input {
+			all: unset;
+		}
 	}
 
-
-
-}
-
-#create-form {
-	background-color: var(--neutral-50);
-	
-	/* a border on these looks kinda cool */
-	/* border-top: 4px solid var(--border-color);
-	border-right: 4px solid var(--border-color);
-	border-bottom: 4px solid var(--border-color); */
-}
-
-.composing-section {
-	/* border: 4px solid var(--border-color); */
-}
-
-#create-form, .composing-section {
-	padding-block: 2rem;
-	font-family: var(--mono);
-
-	/* Don't need this anymore because it's long enough not to joggle */
-	/* max-width: var(--form-width); */
-	/* This is so the form doesn't joggle when the scroll bar shows up */
-	/* margin-left: calc((100vw - var(--form-width)) / 2); */
-	/* TODO need a breakpoint here to account for phone width sub 550px */
-
-	h1 {
-		padding-bottom: 2rem;
+	.option-slider {
+		visibility: hidden;
 	}
 
-	p {
-		padding-top: 1.5rem;
-	}
-	field-group + field-group, label + label, field-group + label, label + field-group {
-		padding-top: 1.5rem;
+	&:has(#create-your-own input:checked) .option-slider{
+		visibility: visible;
+	} 
+
+
+	#form-inputs {
+		display: none;
 	}
 
-	fieldset, fieldset + fieldset, fieldset + h1, field-group + h1 {
-		padding-top: 3rem;
+	&:has(#create-your-own input:checked) #form-inputs {
+		display: block;
 	}
+
+	// END SECTION
+	*/
 
 	field-group{
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
-		align-items: center;
+		align-items: start;
+		/* gap: 12px */
 	}
 
-	field-group:has(> input[type='text']){
+	/* VERTICAL Lablel/Input GROUP */
+	label:has(> input[type='text']), .choose-a-form{
 		flex-direction: column;
 		min-width: 100%;
 		align-items: revert;
@@ -229,57 +203,25 @@ main {
 		color: var(--neutral-500)
 	}
 
-	select {
-      padding: 10px 12px;
-      font-family: "Roboto Mono", monospace;
-   }
-
-	input {
-		font-family: var(--mono);
-		font-size: 1rem;
-		border: unset;
-		border: 1px solid var(--border-color);
-		border-radius: 5px;
-		padding-inline: 1rem;
-	}
-
-	input:disabled {
-		border: 1px solid var(--border-disabled-color);
-	}
-
-	input:invalid {
-		background-color: var(--light-red);
-	}
+	
 
 	label {
+		width: 100%;
 		display: flex;
-		align-items: flex-start;
-		.label-name {
-			flex-grow: 2;
-		}
+		justify-content: space-between;
+		gap: 12px;
+		align-items: center;
 		.error {
 			flex-basis: 50%;
 		}
 	}
 
+	/* TODO is this still being used?? */
 	.error {
 		font-family: sans-serif;
 		font-size: .8rem;
 		padding-left: .5rem;
 		color: var(--red);
-	}
-
-	input[type='number']  {
-		width: 72px;
-		height: 45px;
-		text-align: center;
-		font-family: "Roboto Mono", monospace;
-	}
-
-	input[type='text']  {
-		min-width: 100%;
-		height: 45px;
-		font-family: "Roboto Mono", monospace;
 	}
 
 	label.checkbox-slider {
@@ -304,7 +246,6 @@ main {
 			background-color: var(--neutral-0);
 			z-index: 1;
 
-			/* box-sizing: content-box; */
 
 			span {
 				display: flex;
@@ -327,6 +268,7 @@ main {
 				left: -1px;
 				top: -1px;
 				width: calc(50% + 1px);
+				/* weirdly this sometimes seems to require the +2 additional pixels, and sometimes it doesn't… what gives??? I don't know what's controlling that */
 				height: calc(100% + 2px);
 				border: 1px solid var(--border-color);
 				border-radius: 5px;
@@ -399,234 +341,128 @@ main {
 	}
 
 
-	p + #compose {
-		margin-top: 1rem;
+	
+
+	h1 {
+		padding-bottom: 2rem;
 	}
 
-	#compose {
-		border: 1px solid var(--neutral-500);
-		border-radius: 5px;
-		padding: .3rem;
-	
-		.input-group {
-			display: flex;
-			position: relative;
-			input {
-				border: none;
-				border-radius: 0;
-				padding-left: 1.5rem;
-				min-width: 95%; 
-			}
-			input:focus {
-				/* outline: none; */
-				/* border-left: 2px solid blue; */
-			}
-		}
-
-		label {
-			display: flex;
-			align-items: center;
-		}
-
-		
-		
-	
+	field-group + field-group, label + label, field-group + label, label + field-group {
+		padding-top: 1.5rem;
 	}
 
-   
-	
-	
-}
-
-.indicator-legend {
-	display: flex;
-	/* flex-direction: column; */
-	gap: 1rem;
-
-	.legend-item {
-		display: flex;
-		gap: .6rem;
-		align-items: center;
-
-		.legend {
-			width: 1lh;
-			height: 1lh;
-			border-radius: 50%;
-		}
+	field-group + fieldset, fieldset + fieldset, fieldset + h1, field-group + h1 {
+		padding-top: 3rem;
 	}
 }
 
+.option-slider {
+	--slider-width: 1.5rem;
+	--slider-bg: var(--neutral-0);
+	--slider: var(--neutral-100);
 
-.indicators {
 	display: flex;
+	align-items: center;
 	gap: 8px;
 
-	.indicator{
-		width: 10px;
-		height: 10px;
+	.switch-container {
+		display: inline-block;
+		height: calc(var(--slider-width) + 8px);
+		width: calc(var(--slider-width) * 2 + 8px);
+		position: relative;
+	 }
+	 
+	 .switch-container input {
+		display:none;
+	 }
+	 
+	 .slider {
+		
+		background-color: var(--slider-bg);
+		bottom: 0;
+		cursor: pointer;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	 }
+	 
+	 .slider:before {
+		background-color: var(--slider);
+		bottom: 4px;
+		content: "";
+		height: var(--slider-width);
+		aspect-ratio: 1/1;
+		left: 4px;
+		position: absolute;
+		transition: .4s;
+	 }
+	 
+	 input:checked + .slider {
+		/* background-color: green; */
+	 }
+	 
+	 input:checked + .slider:before {
+		transform: translateX(100%);
+	 }
+	 
+	 .slider.round {
+		border-radius: 34px;
+	 }
+	 
+	 .slider.round:before {
 		border-radius: 50%;
-		top: 1.2rem;
-		left: .4rem;
-		/* background-color: var(--unknown); */
-	}
-}
-
-.meter-indicator {
-	
-	&.exception {
-		background-color: var(--unknown);
-	}
-	&.good {
-		background-color: var(--good);
-		border: 2px solid black;
-	}
-	&.bad {
-		background-color: var(--bad-meter);
-		/* position: absolute; */
-	
-	}
-}
-
-
-.rhyme-indicator {
-	&.exception {
-		background-color: var(--unknown);
-	}
-	&.good {
-		background-color: var(--good);
-		border: 2px solid black;
-	}
-	&.bad {
-		background-color: var(--bad-rhyme);
-	}
-}
-
-.syllable-indicator {
-	&.exception {
-		background-color: var(--unknown);
-	}
-	&.good {
-		background-color: var(--good);
-		border: 2px solid black;
-		
-	}
-	&.bad {
-		background-color: var(--bad-syllable);
-		/* position: absolute; */
-		
-	}
+	 }
 }
 
 
 
-
-/* TYPOGRAPHY */
-
-.loud-voice {
-	/* font-family: "Fraunces", serif; */
-	font-family: "Roboto Mono", monospace;
-	/* font-weight: 700; */
-	font-size: 2rem;
-}
-
-.attention-voice {
-	font-family: "Fraunces", serif;
-	font-size: 3rem;
-	line-height: 1.2;
-	font-weight: 300;
-}
-
-.cross-out {
-	text-decoration: line-through;
-}
-
-.link-container {
-	margin-top: 2rem;
-	display: flex;
-	/* justify-content: center; */
-}
-
-.loud-link {
-	font-family: "Roboto Mono", monospace;
-	color: inherit;
-	text-decoration: none;
-	font-size: 2rem;
-	font-weight: 300;
-	background-color: var(--neutral-100);
-	width: fit-content;
-	padding: 1rem 2rem;
-	border-radius: 5px;
-	display: flex;
-	transition: all 2s;
-
-	&:hover {
-		font-weight: 900;
-		/* font-size: 3rem; */
-		/* letter-spacing: 10px; */
-	}
-}
-
-
-p {
-	line-height: 1.4;
-}
-
-p + p {
-	padding-top: .5rem;
-}
-
-.loud-voice + .body-copy {
-	padding-top: 3rem;
-}
-
-.mono, code {
-	font-family: "Roboto Mono", monospace;
-}
-
-.block-quote{
-	padding-left: 1rem;
-	padding-block: 2rem;
-}
-
-.body-copy {
-	font-family: "Spectral", serif;
-	line-height: 1.4;
-	/* letter-spacing: .5px; */
-}
-
-section + section {
-	padding-top: 3rem;
-}
-
-
-@media (min-width: 800px) {
+@media (min-width: 1200px) {
 
 	:root{
 		--inner-column-padding: 2rem;
 	}
 
-	main inner-column {
-		padding-inline: 0;
+	body {
+		min-height: 100vh;
+		max-height: 100vh;
+		display: flex;
+		flex-direction: column;
 	}
 
-	main grid-container{
+	inner-column {
+		max-width: inherit;
+		margin-inline: auto;
+
+		main & {
+			padding-inline: 0;
+			max-width: 1000px;
+		}
+	}
+
+
+	main{
+
+		flex-grow: 2;
+		max-height: 100%;
+		overflow: hidden;
 
 		display: grid;
 		grid-template-columns: 1fr minmax(500px, 1fr);
-		/* gap: 2rem; */
 
-		max-width: var(--inner-column);
-		margin-inline: auto;
+		/* max-width: var(--inner-column); */
+		/* margin-inline: auto; */
+	}
+
+	section {
+		padding-inline: 2rem;
 	}
 	
 
-	form {
-		padding-inline: 2rem;
+	.form-panel {
 		order: 2;
-	}
-
-	.composing-section {
-		padding-inline: 2rem;
+		max-height: 100%;
+		overflow-y: scroll;
 	}
 }
 

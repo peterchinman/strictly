@@ -1,0 +1,91 @@
+/* TYPOGRAPHY */
+
+strong {
+	font-weight: 600;
+}
+
+.loud-voice {
+	/* font-family: "Fraunces", serif; */
+	font-family: "Roboto Mono", monospace;
+	/* font-weight: 700; */
+	font-size: 3rem;
+	padding-bottom: 2rem;
+}
+
+.loud-instruction {
+	font-weight: 700;
+}
+
+.explanation-text {
+	font-size: .8rem;
+	color: var(--neutral-700);
+}
+
+.attention-voice {
+	font-family: "Fraunces", serif;
+	font-size: 3rem;
+	line-height: 1.2;
+	font-weight: 300;
+}
+
+.cross-out {
+	text-decoration: line-through;
+}
+
+.link-container {
+	margin-top: 2rem;
+	display: flex;
+	/* justify-content: center; */
+}
+
+.loud-link {
+	font-family: "Roboto Mono", monospace;
+	color: inherit;
+	text-decoration: none;
+	font-size: 2rem;
+	font-weight: 300;
+	background-color: var(--neutral-100);
+	width: fit-content;
+	padding: 1rem 2rem;
+	border-radius: 5px;
+	display: flex;
+	transition: all 2s;
+
+	&:hover {
+		font-weight: 900;
+		/* font-size: 3rem; */
+		/* letter-spacing: 10px; */
+	}
+}
+
+/* SPACING */
+p {
+	line-height: 1.4;
+}
+
+p + p, p + ul.copy, ul + p, li.copy + li.copy {
+	padding-top: .5rem;
+}
+
+p + h2, ul.copy + h2 {
+	padding-top: 2rem;
+}
+
+.loud-voice + .body-copy {
+	padding-top: 3rem;
+}
+
+.mono, code {
+	font-family: "Roboto Mono", monospace;
+}
+
+.block-quote{
+	padding-left: 1rem;
+	padding-block: 2rem;
+}
+
+.body-copy {
+	font-family: "Spectral", serif;
+	line-height: 1.4;
+	/* letter-spacing: .5px; */
+}

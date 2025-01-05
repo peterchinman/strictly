@@ -189,10 +189,11 @@ function loadFormData(form) {
  */
 function updateError(inputElement, errorMessage, bool){
    
-   label = inputElement.parentElement.querySelector('label');
+   label = inputElement.parentElement;
 
    // check if error already exists
    const errorElements = label.querySelectorAll('.error');
+
    for (const element of errorElements) {
       if (element.textContent == errorMessage){
          if (bool) {
@@ -203,6 +204,8 @@ function updateError(inputElement, errorMessage, bool){
          }
       }
    }
+   
+   
    // otherwise attach error if bool is true
    if (bool) {
       errorSpan = document.createElement('span');
@@ -215,14 +218,18 @@ function updateError(inputElement, errorMessage, bool){
 
 function updateDifferingLinesCheckboxState(form) {
    if (form.poemLineLength) {
-      document.querySelector('.poem-or-stanza').textContent = "Poem";
+      document.querySelectorAll('.poem-or-stanza').forEach(element => {
+         element.textContent = "Poem";
+      });
       $differingLinesInput.id = "poem-differing-lines";
       $differingLinesInput.name = "poem-differing-lines";
       $differingLinesInput.disabled = false;
    }
    // this supercedes Poem Line Length, if it exists
    if (form.stanzaLineLength) {
-      document.querySelector('.poem-or-stanza').textContent = "Stanza";
+      document.querySelectorAll('.poem-or-stanza').forEach(element => {
+         element.textContent = "Stanza";
+      });
       $differingLinesInput.id = "stanza-differing-lines";
       $differingLinesInput.name = "stanza-differing-lines";
       $differingLinesInput.disabled = false;
@@ -338,9 +345,12 @@ function createFieldGroup(field) {
          input.classList.add('syllable');
       }
 
+      label.appendChild(input);
+
+      // TODO add explanation!!
+
       // Append the label and input to the field-group
       fieldGroup.appendChild(label);
-      fieldGroup.appendChild(input);
       
       return fieldGroup;
 }
@@ -376,13 +386,11 @@ function createAndPlaceDifferingLinesSection(lineLength, stanzaOrPoem) {
    // place the element
 
    // if there's a submit button insert before that
-   if (document.querySelector('#form-submit')) {
-      document.querySelector('#form-submit').parentNode.insertBefore(container, document.querySelector('#form-submit'));
-   }
-   // otherwise append to end of form
-   else{
-      document.querySelector('#create-form').appendChild(container);
-   }
+   // if (document.querySelector('#form-submit')) {
+   //    document.querySelector('#form-submit').parentNode.insertBefore(container, document.querySelector('#form-submit'));
+   // }
+   // otherwise append to end of the form-inputs
+   document.querySelector('#form-inputs').appendChild(container);
 }
 
 // GLOBAL VARIABLES
@@ -683,6 +691,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
       // FORM VALIDATION LOGIC
+
+      /** possible error messages:
+       * 
+       * <span><strong>Rhyme Scheme</strong> length must be equal to <strong>Stanza Line Length</strong>.</span>
+       * 
+       * <span><strong>Poem Line Length</strong> must be divisible by <strong>Rhyme Scheme</strong> length.</span>
+       * 
+       * <span><strong>Stanza Line Length</strong> must match <strong>Rhyme Scheme</strong> length.</span>
+       * 
+       * <span><strong>Meter</strong> length must match <strong>Syllables per Line</strong>.</span>
+       * 
+       * <span><strong>Poem Line Length</strong> must be divisible by <strong>Stanza Line Length</strong>.</span>
+       * 
+       */ 
+
 
       
       // POEM LINE LENGTH MUST BE DIVISIBLE BY STANZA LINE LENGTH

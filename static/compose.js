@@ -102,8 +102,8 @@ function createNewInputGroup() {
    $input.type = 'text';
    $input.classList.add('compose-input')
 
-   $div.appendChild($label); 
    $div.appendChild($input);
+   $div.appendChild($label); 
 
    return $div; 
 }
